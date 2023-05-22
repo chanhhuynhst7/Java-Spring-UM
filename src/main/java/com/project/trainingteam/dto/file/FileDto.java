@@ -15,8 +15,6 @@ public class FileDto {
 
     private Long letterId;
 
-    private String groupLetterName;
-
     private String fileName;
 
     private String downloadUrl;

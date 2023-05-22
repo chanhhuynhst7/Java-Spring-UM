@@ -14,7 +14,7 @@ public interface FileService {
 
     File downloadFile(@Param("id")Long id);
 
-    List<FileDto> savedMultiFile(@Param("letterId") Long letterId,@Param("groupLetterCode")String groupLetterCode ,MultipartFile[] multipartFiles) throws Exception;
+    List<File> savedMultiFile(MultipartFile[] multipartFiles,Long id) throws Exception;
 
 
 //    List<FileDto> findListFileByGroupLetterCodeAndLetterId(@Param("groupLetterCode")String groupLetterCode , @Param("letterId") Long letterId) throws Exception;

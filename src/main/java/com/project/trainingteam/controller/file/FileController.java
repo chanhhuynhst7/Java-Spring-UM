@@ -24,18 +24,18 @@ import java.util.List;
 public class FileController {
 
     private FileService fileService;
-
-    @PostMapping("/upload/{groupLetterCode}/{letterId}")
-    public ResponseEntity<FileDto> uploadFile(@PathVariable("letterId") Long letterId , @PathVariable("groupLetterCode") String groupLetterCode,@RequestParam("file") MultipartFile file)throws Exception{
-        FileDto fileDto = fileService.saveFile(letterId,groupLetterCode,file);
-        return new ResponseEntity<>(fileDto, HttpStatus.CREATED);
-    }
-
-
-    @PostMapping("/upload-multiple/{groupLetterCode}/{letterId}")
-    public ResponseEntity<List<FileDto>> uploadMultiFile(@PathVariable("letterId") Long letterId , @PathVariable("groupLetterCode") String groupLetterCode, @RequestParam("file") MultipartFile[] multipartFiles)throws Exception{
-        List<FileDto> fileDtoList = fileService.savedMultiFile(letterId,groupLetterCode,multipartFiles);
-        return new ResponseEntity<>(fileDtoList, HttpStatus.CREATED);
+//
+//    @PostMapping("/upload/{groupLetterCode}/{letterId}")
+//    public ResponseEntity<FileDto> uploadFile(@PathVariable("letterId") Long letterId , @PathVariable("groupLetterCode") String groupLetterCode,@RequestParam("file") MultipartFile file)throws Exception{
+//        FileDto fileDto = fileService.saveFile(letterId,groupLetterCode,file);
+//        return new ResponseEntity<>(fileDto, HttpStatus.CREATED);
+//    }
+//
+//
+    @PostMapping("/upload-multiple")
+    public ResponseEntity<List<File>> uploadMultiFile(@RequestParam("file") MultipartFile[] multipartFiles,Long letterId)throws Exception{
+        List<File> fileList = fileService.savedMultiFile(multipartFiles,letterId);
+        return new ResponseEntity<>(fileList, HttpStatus.CREATED);
     }
 
     @GetMapping("/download/{id}")

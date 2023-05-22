@@ -12,4 +12,7 @@ public interface GroupLetterRepo extends JpaRepository<GroupLetter,Long> {
     boolean existsByGroupLetterName(String groupLetterName);
 
     Optional<GroupLetter> findGroupLetterByGroupLetterCode(String groupLetterCode);
+
+    GroupLetter findGroupLetterByGroupLetterName(String groupLetterName);
+
 }

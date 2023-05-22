@@ -1,6 +1,7 @@
 package com.project.trainingteam.entities.file;
 
 
+import com.project.trainingteam.entities.letter.Letter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,18 +18,19 @@ public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "file_id")
     private Long id;
-
-    @Column(nullable = false)
-    private Long letterId;
-
-    @Column(nullable = false)
-    private String groupLetterName;
 
     private String fileName;
 
     private String fileType;
 
+    private String downloadUrl;
+
     @Lob
     private byte[] data;
+
+    @ManyToOne
+    @JoinColumn(name = "letter_id")
+    private Letter letter;
 }

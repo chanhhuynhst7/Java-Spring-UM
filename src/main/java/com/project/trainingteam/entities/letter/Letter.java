@@ -1,7 +1,10 @@
 package com.project.trainingteam.entities.letter;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.trainingteam.dto.file.FileDto;
 import com.project.trainingteam.entities.base.Auditable;
+import com.project.trainingteam.entities.file.File;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,10 +24,8 @@ public class Letter extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "letter_id")
     private Long id ;
-
-    @Column(nullable = false)
-    private String groupLetter;
 
     @Column(nullable = false)
     private String username;
@@ -43,12 +45,6 @@ public class Letter extends Auditable {
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
-    private String semesterName;
-
-    @Column(nullable = false)
-    private String reason;
-
     @Column(columnDefinition = "date default null")
     private Date processedDate;
 
@@ -61,7 +57,14 @@ public class Letter extends Auditable {
 
     private Integer result = 0;
 
+    @Column(columnDefinition = "boolean default null")
+    private boolean isDeleted;
+
+
     @Column(nullable = false)
-    private String handlePart;
+    private String groupLetterName;
+    //Database Relationship
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, mappedBy = "letter")
+    private List<File> file;
 
 }

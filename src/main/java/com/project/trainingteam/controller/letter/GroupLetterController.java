@@ -43,5 +43,5 @@ public class GroupLetterController {
     public ResponseEntity<String> deletedGroupLetter(@PathVariable("id") Long id)throws Exception{
         groupLetterService.deletedGroupLetter(id);
         return new ResponseEntity<>("Deleted Thành Công",HttpStatus.OK);
-    }
+    };
 }

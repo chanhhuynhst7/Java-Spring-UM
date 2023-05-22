@@ -17,6 +17,7 @@ public class GroupLetter extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "group_letter_id")
     private Long id;
 
     @Column(nullable = false)
@@ -28,4 +29,8 @@ public class GroupLetter extends Auditable {
     private String descGroupLetter;
 
     private boolean action = true;
+
+    //Database Relationship
+
+
 }
