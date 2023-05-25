@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name="um_reason_chuyen_gio_thi")
-public class ChuyenGioThi {
+public class ReasonChuyenGioThi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,9 @@ public class ChuyenGioThi {
     private Long id;
 
     @Column(nullable = false)
-    private String chuyenGioThiName;
+    private String reasonChuyenGioThiName;
+
+    private String descReasonChuyenGioThi;
 
     private boolean action  = true;
 };

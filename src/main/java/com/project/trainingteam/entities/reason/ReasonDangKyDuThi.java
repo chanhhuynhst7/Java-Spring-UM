@@ -6,21 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="um_reason_hoan_thi")
-public class HoanThi {
+@Table(name="um_reason_dang_ky_du_thi")
+public class ReasonDangKyDuThi {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reason_hoan_thi_id")
+    @Column(name = "reason_dang_ky_du_thi_id")
     private Long id;
 
     @Column(nullable = false)
-    private String hoanThiName;
+    private String reasonDangKyDuThiName;
 
-    private boolean action = true;
+    private String descReasonDangKyDuThi;
+
+    private boolean action = true ;
+
 };

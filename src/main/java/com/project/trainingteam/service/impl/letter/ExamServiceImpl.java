@@ -54,7 +54,7 @@ public class ExamServiceImpl implements ExamService {
         }else{
             throw new Exception("Không thể update GroupLetter");
         }
-    }
+    };
 
     @Override
     public Page<ExamDto> getAllExam(Pageable pageable) throws Exception {
@@ -72,5 +72,5 @@ public class ExamServiceImpl implements ExamService {
     public String deletedExam(Long id) {
         examRepo.deleteById(id);
         return "Delete Thành Công";
-    }
+    };
 }
