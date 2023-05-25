@@ -22,5 +22,10 @@ public class Exam {
     @Column(nullable = false)
     private String examName;
 
+    @Column(nullable = false)
+    private String examCode;
+
+    private String descExam;
+
     private boolean action = true;
 }
