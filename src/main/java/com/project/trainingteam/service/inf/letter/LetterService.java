@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 public interface LetterService {
 
-    LetterDto createdLetter(@Param("groupLetterName") String groupLetterName, MultipartFile[] multipartFiles) throws Exception;
+    LetterDto createdLetter(@Param("groupLetterName") String groupLetterName, MultipartFile[] multipartFiles, @RequestBody Letter req) throws Exception;
 
     LetterDto updatedLetter(Letter req, MultipartFile[] multipartFiles) throws Exception;
 

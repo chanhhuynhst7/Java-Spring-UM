@@ -32,6 +32,10 @@ public class LetterDto {
 
     private String phone;
 
+    private String reason;
+
+    private String semesterName;
+
     private Date processedDate;
 
     private Date resultDate;
@@ -42,8 +46,13 @@ public class LetterDto {
 
     private Integer result = 0;
 
+    private String handlePart;
+
     private boolean isDeleted;
 
     private String groupLetterName;
+
+    private List<File> file;
+
 
 }

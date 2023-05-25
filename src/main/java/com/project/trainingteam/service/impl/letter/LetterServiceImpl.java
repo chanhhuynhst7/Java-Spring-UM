@@ -50,11 +50,9 @@ public class LetterServiceImpl implements LetterService {
     @Autowired
     private FileService fileService;
 
-    @Autowired
-    private DangKyXetTotNghiepRepo dangKyXetTotNghiepRepo;
 
     @Override
-    public LetterDto createdLetter(String groupLetterName, MultipartFile[] multipartFiles) throws Exception {
+    public LetterDto createdLetter(String groupLetterName, MultipartFile[] multipartFiles, Letter req) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentName = authentication.getName();
         Optional<User> inforUser = userRepo.findByUsername(currentName);
@@ -67,21 +65,32 @@ public class LetterServiceImpl implements LetterService {
             letter.setMajor(inforUser.get().getMajor());
             letter.setPhone(inforUser.get().getPhone());
             letter.setGroupLetterName(groupLetterName);
+            letter.setReason(req.getReason());
+            letter.setSemesterName(req.getSemesterName());
+
             // Save the Letter object
             Letter savedLetter = letterRepo.save(letter);
-
             // Pass the generated letterId to savedMultiFile
             List<File> file = fileService.savedMultiFile(multipartFiles, savedLetter.getId());
 
-            // Update the savedLetter with the file association
-            savedLetter.setFile(file);
 
-            savedLetter = letterRepo.save(savedLetter);
 
-            return modelMapper.map(savedLetter, LetterDto.class);
+            LetterDto letterDto = new LetterDto();
+            letterDto.setUsername(savedLetter.getUsername());
+            letterDto.setFullname(savedLetter.getFullname());
+            letterDto.setClassUser(savedLetter.getClassUser());
+            letterDto.setFacultyName(savedLetter.getFacultyName());
+            letterDto.setMajor(savedLetter.getMajor());
+            letterDto.setPhone(savedLetter.getPhone());
+            letterDto.setGroupLetterName(savedLetter.getGroupLetterName());
+            letterDto.setReason(savedLetter.getReason());
+            letterDto.setSemesterName(savedLetter.getSemesterName());
+            letterDto.setFile(file);
+            return letterDto;
         } else {
             throw new Exception("Hết lượt tạo mới");
         }
+
     };
 
 
@@ -89,16 +98,18 @@ public class LetterServiceImpl implements LetterService {
     //chưa hoàn thành
     @Override
     public LetterDto updatedLetter(Letter req,MultipartFile[] multipartFiles) throws Exception {
-        Letter letter = letterRepo.findById(req.getId()).get();
-        if(letter != null){
-            List<File> file = fileService.savedMultiFile(multipartFiles, letter.getId());
-            // Update the savedLetter with the file association
-            letter.setFile(file);
-            Letter savedLetter = letterRepo.save(letter);
-            return modelMapper.map(savedLetter, LetterDto.class);
-        }else {
-            throw new Exception("Không thể update Letter");
-        }
+//        Letter letter = letterRepo.findById(req.getId()).get();
+//        if(letter != null){
+//            List<File> file = fileService.savedMultiFile(multipartFiles, letter.getId());
+//            // Update the savedLetter with the file association
+//
+//            Letter savedLetter = letterRepo.save(letter);
+//            return modelMapper.map(savedLetter, LetterDto.class);
+//        }else {
+//            throw new Exception("Không thể update Letter");
+//        }
+
+        return null;
 
     };
 

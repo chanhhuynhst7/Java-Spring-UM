@@ -87,10 +87,8 @@ public class FileServiceImpl implements FileService {
                 f.setFileName(fileName);
                 f.setFileType(file.getContentType());
                 f.setData(file.getBytes());
-
-                Letter letter = new Letter();
-                letter.setId(id);
-                f.setLetter(letter); // Set the Letter object with the provided letterId
+                f.setLetterId(id);
+                // Set the Letter object with the provided letterId
                 File savedFile = fileRepo.save(f);
 
                 downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()

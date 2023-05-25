@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/token").permitAll()
                 .requestMatchers("/api/user/create").permitAll()
                 .requestMatchers("/api/file/download/**").permitAll()
+                .requestMatchers("api/letter/**").permitAll()
                 .anyRequest().authenticated();
 
         // Add JWT authentication filter

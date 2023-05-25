@@ -23,6 +23,8 @@ public class File {
 
     private String fileName;
 
+    private Long letterId;
+
     private String fileType;
 
     private String downloadUrl;
@@ -30,7 +32,4 @@ public class File {
     @Lob
     private byte[] data;
 
-    @ManyToOne
-    @JoinColumn(name = "letter_id")
-    private Letter letter;
 }

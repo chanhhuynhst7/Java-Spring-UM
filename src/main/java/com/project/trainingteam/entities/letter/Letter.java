@@ -4,6 +4,7 @@ package com.project.trainingteam.entities.letter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.trainingteam.dto.file.FileDto;
 import com.project.trainingteam.entities.base.Auditable;
+import com.project.trainingteam.entities.content.DangKyXetTotNghiep;
 import com.project.trainingteam.entities.file.File;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,10 @@ public class Letter extends Auditable {
     @Column(nullable = false)
     private String phone;
 
+    private String reason;
+
+    private String semesterName;
+
     @Column(columnDefinition = "date default null")
     private Date processedDate;
 
@@ -57,14 +62,14 @@ public class Letter extends Auditable {
 
     private Integer result = 0;
 
+    private String handlePart ="Thầy Nguyễn Văn A Khoa A";
+
     @Column(columnDefinition = "boolean default null")
     private boolean isDeleted;
 
 
     @Column(nullable = false)
     private String groupLetterName;
-    //Database Relationship
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, mappedBy = "letter")
-    private List<File> file;
+
 
 }
