@@ -42,12 +42,12 @@ public class LetterController {
     };
 
 
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<LetterDto> updatedLetter(@PathVariable("id")Long id, @RequestBody Letter req) throws Exception {
-//        req.setId(id);
-//        LetterDto updatedLetter = letterService.updatedLetter(req);
-//        return new ResponseEntity<>(updatedLetter, HttpStatus.CREATED);
-//    };
+    @PutMapping("/update/{id}")
+    public ResponseEntity<LetterDto> updatedLetter(@PathVariable("id")Long id, @RequestBody Letter req) throws Exception {
+        req.setId(id);
+        LetterDto updatedLetter = letterService.updatedLetter(req);
+        return new ResponseEntity<>(updatedLetter, HttpStatus.CREATED);
+    };
 
 
     @GetMapping("/all")
@@ -57,9 +57,7 @@ public class LetterController {
                                                         @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
         Page<LetterDto> letterDtoPage = letterService.getAllLetter(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
         return new ResponseEntity<>(letterDtoPage, HttpStatus.OK);
-    }
-
-    ;
+    };
 
     @GetMapping("/current")
     public ResponseEntity<Page<LetterDto>> getAllLetterUser(@RequestParam(name = "pageNumber", defaultValue = "0") int page,

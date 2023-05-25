@@ -19,7 +19,7 @@ public interface LetterService {
 
     LetterDto createdLetter(@Param("groupLetterName") String groupLetterName, MultipartFile[] multipartFiles, @RequestBody Letter req) throws Exception;
 
-    LetterDto updatedLetter(Letter req, MultipartFile[] multipartFiles) throws Exception;
+    LetterDto updatedLetter(Letter req) throws Exception;
 
     Page<LetterDto> getAllLetter(Pageable pageable) throws Exception;
 

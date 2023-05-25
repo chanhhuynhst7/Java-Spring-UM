@@ -13,10 +13,10 @@ import java.util.List;
 @Repository
 public interface LetterRepo extends JpaRepository<Letter,Long> {
 
-//    @Query("SELECT COUNT(l.letterId) as check " +
-//            "FROM Letter l JOIN GroupLetter g " +
-//            "WHERE g.id = l.groupLetter.id AND l.username = :username AND g.groupLetterName = :groupLetterName")
-//    Integer countLettersWithGroupLetter(String username, String groupLetterName);
+    @Query("SELECT COUNT(l.id) as check " +
+            "FROM Letter l " +
+            "WHERE l.username = :username AND l.groupLetterName = :groupLetterName AND l.status != 2")
+    Integer countLettersWithGroupLetter(String username, String groupLetterName);
 
     @Query("SELECT l FROM Letter l WHERE l.username = :username")
     Page<Letter>findLetterByUserName(String username, Pageable pageable);

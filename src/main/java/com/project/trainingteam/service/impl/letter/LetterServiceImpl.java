@@ -56,61 +56,65 @@ public class LetterServiceImpl implements LetterService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentName = authentication.getName();
         Optional<User> inforUser = userRepo.findByUsername(currentName);
-        if (inforUser != null) {
-            Letter letter = new Letter();
-            letter.setUsername(inforUser.get().getUsername());
-            letter.setFullname(inforUser.get().getFullname());
-            letter.setClassUser(inforUser.get().getClassUser());
-            letter.setFacultyName(inforUser.get().getFacultyName());
-            letter.setMajor(inforUser.get().getMajor());
-            letter.setPhone(inforUser.get().getPhone());
-            letter.setGroupLetterName(groupLetterName);
-            letter.setReason(req.getReason());
-            letter.setSemesterName(req.getSemesterName());
+        Integer check = letterRepo.countLettersWithGroupLetter(currentName,groupLetterName);
+        if(check < 1){
+            if (inforUser != null) {
+                Letter letter = new Letter();
+                letter.setUsername(inforUser.get().getUsername());
+                letter.setFullname(inforUser.get().getFullname());
+                letter.setClassUser(inforUser.get().getClassUser());
+                letter.setFacultyName(inforUser.get().getFacultyName());
+                letter.setMajor(inforUser.get().getMajor());
+                letter.setPhone(inforUser.get().getPhone());
+                letter.setGroupLetterName(groupLetterName);
+                letter.setReason(req.getReason());
+                letter.setSemesterName(req.getSemesterName());
 
-            // Save the Letter object
-            Letter savedLetter = letterRepo.save(letter);
-            // Pass the generated letterId to savedMultiFile
-            List<File> file = fileService.savedMultiFile(multipartFiles, savedLetter.getId());
+                // Save the Letter object
+                Letter savedLetter = letterRepo.save(letter);
+                // Pass the generated letterId to savedMultiFile
+                List<File> file = fileService.savedMultiFile(multipartFiles, savedLetter.getId());
 
 
 
-            LetterDto letterDto = new LetterDto();
-            letterDto.setUsername(savedLetter.getUsername());
-            letterDto.setFullname(savedLetter.getFullname());
-            letterDto.setClassUser(savedLetter.getClassUser());
-            letterDto.setFacultyName(savedLetter.getFacultyName());
-            letterDto.setMajor(savedLetter.getMajor());
-            letterDto.setPhone(savedLetter.getPhone());
-            letterDto.setGroupLetterName(savedLetter.getGroupLetterName());
-            letterDto.setReason(savedLetter.getReason());
-            letterDto.setSemesterName(savedLetter.getSemesterName());
-            letterDto.setFile(file);
-            return letterDto;
-        } else {
-            throw new Exception("Hết lượt tạo mới");
+                LetterDto letterDto = new LetterDto();
+                letterDto.setUsername(savedLetter.getUsername());
+                letterDto.setFullname(savedLetter.getFullname());
+                letterDto.setClassUser(savedLetter.getClassUser());
+                letterDto.setFacultyName(savedLetter.getFacultyName());
+                letterDto.setMajor(savedLetter.getMajor());
+                letterDto.setPhone(savedLetter.getPhone());
+                letterDto.setGroupLetterName(savedLetter.getGroupLetterName());
+                letterDto.setReason(savedLetter.getReason());
+                letterDto.setSemesterName(savedLetter.getSemesterName());
+                letterDto.setFile(file);
+                return letterDto;
+            } else {
+                throw new Exception("Không thể tạo Letter");
+            }
+        }else{
+            throw new Exception("hết lược tạo mới");
         }
-
     };
 
 
 
-    //chưa hoàn thành
+    //Đang làm
     @Override
-    public LetterDto updatedLetter(Letter req,MultipartFile[] multipartFiles) throws Exception {
-//        Letter letter = letterRepo.findById(req.getId()).get();
-//        if(letter != null){
-//            List<File> file = fileService.savedMultiFile(multipartFiles, letter.getId());
-//            // Update the savedLetter with the file association
-//
-//            Letter savedLetter = letterRepo.save(letter);
-//            return modelMapper.map(savedLetter, LetterDto.class);
-//        }else {
-//            throw new Exception("Không thể update Letter");
-//        }
-
-        return null;
-
+    public LetterDto updatedLetter(Letter req) throws Exception {
+        Letter letter = letterRepo.findById(req.getId()).get();
+        if(letter != null){
+            // Update the savedLetter with the file association
+            letter.setProcessedDate(req.getProcessedDate());
+            letter.setResultDate(req.getResultDate());
+            letter.setStatus(req.getStatus());
+            letter.setResult(req.getResult());
+            letter.setNote(req.getNote());
+            Letter savedLetter = letterRepo.save(letter);
+            return modelMapper.map(savedLetter, LetterDto.class);
+        }else {
+            throw new Exception("Không thể update Letter");
+        }
     };
 
     @Override
