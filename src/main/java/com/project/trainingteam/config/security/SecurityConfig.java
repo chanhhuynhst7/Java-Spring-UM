@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/token").permitAll()
                 .requestMatchers("/api/user/create").permitAll()
                 .requestMatchers("/api/file/download/**").permitAll()
-                .requestMatchers("api/letter/**").permitAll()
+                .requestMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();
 
         // Add JWT authentication filter
@@ -56,4 +56,8 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    private static final String[] AUTH_WHITELIST = {"/api/auth/**","/v3/api-docs/**","/v3/api-docs.yaml", "/swagger-ui/**", "/swagger-ui.html"};
+
+
 }

@@ -3,7 +3,6 @@ package com.project.trainingteam.controller.letter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.trainingteam.dto.letter.LetterDto;
-import com.project.trainingteam.entities.content.DangKyXetTotNghiep;
 import com.project.trainingteam.entities.letter.Letter;
 import com.project.trainingteam.service.inf.letter.LetterService;
 import lombok.AllArgsConstructor;
@@ -74,7 +73,34 @@ public class LetterController {
         return new ResponseEntity<>(letterDto, HttpStatus.OK);
     };
 
+    @GetMapping("/don-da-nop")
+    public ResponseEntity<Page<LetterDto>> getUserLetterByStatus0(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                  @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                  @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                  @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
+        Page<LetterDto> letterDto = letterService.getUserLetterByStatus0(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(letterDto, HttpStatus.OK);
+    };
 
+    @GetMapping("/don-dang-xu-li")
+    public ResponseEntity<Page<LetterDto>> getUserLetterByStatus1(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                  @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                  @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                  @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
+        Page<LetterDto> letterDto = letterService.getUserLetterByStatus1(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(letterDto, HttpStatus.OK);
+    };
+
+    @GetMapping("/don-da-xu-li")
+    public ResponseEntity<Page<LetterDto>> getUserLetterByStatus2(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                  @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                  @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                  @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
+        Page<LetterDto> letterDto = letterService.getUserLetterByStatus2(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(letterDto, HttpStatus.OK);
+    };
+
+    //////////////////////////////////////////////////////////////////////
     @GetMapping("/faculty/{facultyName}")
     public ResponseEntity<Page<LetterDto>> getLetterByFacultyName(@PathVariable("facultyName") String facultyName, @RequestParam(name = "pageNumber", defaultValue = "0") int page,
                                                                   @RequestParam(name = "pageSize", defaultValue = "20") int size,
@@ -85,6 +111,44 @@ public class LetterController {
 
     };
 
+    @GetMapping("/faculty/don-chua-xu-li")
+    public ResponseEntity<Page<LetterDto>> getFacultyLetterByFacultyNameAndStatus0And1(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                  @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                  @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                  @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
+        Page<LetterDto> letterDto = letterService.getFacultyLetterByFacultyNameAndStatus0And1(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(letterDto, HttpStatus.OK);
+    };
+
+    @GetMapping("/faculty/don-da-nop")
+    public ResponseEntity<Page<LetterDto>> getFacultyLetterByFacultyNameAndStatus0(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                       @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                       @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                       @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
+        Page<LetterDto> letterDto = letterService.getFacultyLetterByFacultyNameAndStatus0(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(letterDto, HttpStatus.OK);
+    };
+
+    @GetMapping("/faculty/don-dang-xu-li")
+    public ResponseEntity<Page<LetterDto>> getFacultyLetterByFacultyNameAndStatus1(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                       @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                       @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                       @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
+        Page<LetterDto> letterDto = letterService.getFacultyLetterByFacultyNameAndStatus1(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(letterDto, HttpStatus.OK);
+    };
+
+    @GetMapping("/faculty/don-da-xu-li")
+    public ResponseEntity<Page<LetterDto>> getFacultyLetterByFacultyNameAndStatus2(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                       @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                       @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                       @RequestParam(name = "content", defaultValue = "id") String content) throws Exception {
+        Page<LetterDto> letterDto = letterService.getFacultyLetterByFacultyNameAndStatus2(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(letterDto, HttpStatus.OK);
+    };
+
+
+    /////////////////////////////////////////////////////////////////////////////////////
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletedLetter(@PathVariable("id") Long id) throws Exception {
         letterService.deletedLetter(id);

@@ -4,7 +4,6 @@ package com.project.trainingteam.entities.letter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.trainingteam.dto.file.FileDto;
 import com.project.trainingteam.entities.base.Auditable;
-import com.project.trainingteam.entities.content.DangKyXetTotNghiep;
 import com.project.trainingteam.entities.file.File;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

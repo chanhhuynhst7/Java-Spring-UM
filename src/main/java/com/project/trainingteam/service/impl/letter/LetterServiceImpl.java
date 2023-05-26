@@ -2,17 +2,14 @@ package com.project.trainingteam.service.impl.letter;
 
 
 import com.project.trainingteam.dto.letter.LetterDto;
-import com.project.trainingteam.entities.content.DangKyXetTotNghiep;
 import com.project.trainingteam.entities.file.File;
 import com.project.trainingteam.entities.letter.GroupLetter;
 import com.project.trainingteam.entities.letter.Letter;
 import com.project.trainingteam.entities.user.User;
-import com.project.trainingteam.repo.inf.content.DangKyXetTotNghiepRepo;
 import com.project.trainingteam.repo.inf.file.FileRepo;
 import com.project.trainingteam.repo.inf.letter.GroupLetterRepo;
 import com.project.trainingteam.repo.inf.letter.LetterRepo;
 import com.project.trainingteam.repo.inf.user.UserRepo;
-import com.project.trainingteam.service.inf.content.DangKyXetTotNghiepService;
 import com.project.trainingteam.service.inf.file.FileService;
 import com.project.trainingteam.service.inf.letter.LetterService;
 import org.modelmapper.ModelMapper;
@@ -143,6 +140,55 @@ public class LetterServiceImpl implements LetterService {
         }
     };
 
+
+
+    @Override
+    public Page<LetterDto> getUserLetterByStatus0(Pageable pageable) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Page<Letter> letterPage = letterRepo.findUserLetterByUserNameAndStatus0(currentName,pageable);
+        List<Letter> letterList = letterPage.getContent();
+        List<LetterDto> letterDtoList = letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+        if(letterDtoList != null ){
+            return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
+
+        }else{
+            throw new Exception("Không tìm thấy List Letter");
+        }
+    };
+
+    @Override
+    public Page<LetterDto> getUserLetterByStatus1(Pageable pageable) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Page<Letter> letterPage = letterRepo.findUserLetterByUserNameAndStatus1(currentName,pageable);
+        List<Letter> letterList = letterPage.getContent();
+        List<LetterDto> letterDtoList = letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+        if(letterDtoList != null ){
+            return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
+
+        }else{
+            throw new Exception("Không tìm thấy List Letter");
+        }
+    };
+
+    @Override
+    public Page<LetterDto> getUserLetterByStatus2(Pageable pageable) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Page<Letter> letterPage = letterRepo.findUserLetterByUserNameAndStatus2(currentName,pageable);
+        List<Letter> letterList = letterPage.getContent();
+        List<LetterDto> letterDtoList = letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+        if(letterDtoList != null ){
+            return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
+
+        }else{
+            throw new Exception("Không tìm thấy List Letter");
+        }
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public Page<LetterDto> getAllLetterFaculty(String facultyName, Pageable pageable) throws Exception {
         Page<Letter> letterPage = letterRepo.findLetterByFacultyName(facultyName,pageable);
@@ -151,10 +197,68 @@ public class LetterServiceImpl implements LetterService {
         if(letterDtoList != null){
             return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
         }else{
-            throw new Exception("Không tìm thấy List Semester");
+            throw new Exception("Không tìm thấy List Letter");
         }
+    };
 
+    @Override
+    public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus0And1(Pageable pageable) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Optional<User> inforUser = userRepo.findByUsername(currentName);
+        Page<Letter> letterPage = letterRepo.findLetterByFacultyNameAndStatus0And1(inforUser.get().getFacultyName(),pageable);
+        List<Letter> letterList = letterPage.getContent();
+        List<LetterDto> letterDtoList = letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+        if(letterDtoList != null){
+            return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
+        }else{
+            throw new Exception("Không tìm thấy List Letter");
+        }
+    };
 
+    @Override
+    public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus0(Pageable pageable) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Optional<User> inforUser = userRepo.findByUsername(currentName);
+        Page<Letter> letterPage = letterRepo.findFacultyLetterByFacultyNameAndStatus0(inforUser.get().getFacultyName(),pageable);
+        List<Letter> letterList = letterPage.getContent();
+        List<LetterDto> letterDtoList = letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+        if(letterDtoList != null){
+            return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
+        }else{
+            throw new Exception("Không tìm thấy List Letter");
+        }
+    };
+
+    @Override
+    public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus1(Pageable pageable) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Optional<User> inforUser = userRepo.findByUsername(currentName);
+        Page<Letter> letterPage = letterRepo.findFacultyLetterByFacultyNameAndStatus1(inforUser.get().getFacultyName(),pageable);
+        List<Letter> letterList = letterPage.getContent();
+        List<LetterDto> letterDtoList = letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+        if(letterDtoList != null){
+            return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
+        }else{
+            throw new Exception("Không tìm thấy List Letter");
+        }
+    };
+
+    @Override
+    public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus2(Pageable pageable) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Optional<User> inforUser = userRepo.findByUsername(currentName);
+        Page<Letter> letterPage = letterRepo.findFacultyLetterByFacultyNameAndStatus2(inforUser.get().getFacultyName(),pageable);
+        List<Letter> letterList = letterPage.getContent();
+        List<LetterDto> letterDtoList = letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+        if(letterDtoList != null){
+            return new PageImpl<>(letterDtoList,pageable,letterPage.getTotalElements());
+        }else{
+            throw new Exception("Không tìm thấy List Letter");
+        }
     };
 
     @Override
