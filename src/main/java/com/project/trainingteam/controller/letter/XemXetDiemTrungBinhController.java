@@ -22,7 +22,7 @@ public class XemXetDiemTrungBinhController {
 
     @PostMapping(value = "/create/{groupLetterName}")
     public ResponseEntity<XemXetDiemTrungBinhDto> createdXemXetDiemTrungBinh(@PathVariable("groupLetterName") String groupLetterName,
-                                                                             @RequestParam(value = "files") MultipartFile[] multipartFiles,
+                                                                             @RequestParam(value = "files" , required = false) MultipartFile[] multipartFiles,
                                                                              @RequestPart("content") XemXetDiemTrungBinh req
     ) throws Exception {
         try {

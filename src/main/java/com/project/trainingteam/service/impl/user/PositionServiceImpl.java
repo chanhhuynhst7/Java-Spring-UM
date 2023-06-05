@@ -1,9 +1,7 @@
 package com.project.trainingteam.service.impl.user;
 
 import com.project.trainingteam.dto.user.PositionDto;
-import com.project.trainingteam.dto.user.RoleDto;
 import com.project.trainingteam.entities.user.Position;
-import com.project.trainingteam.entities.user.Role;
 import com.project.trainingteam.repo.inf.user.PositionRepo;
 import com.project.trainingteam.service.inf.user.PositionService;
 import org.modelmapper.ModelMapper;
@@ -33,7 +31,7 @@ public class PositionServiceImpl implements PositionService {
             Position position = new Position();
             position.setPositionName(req.getPositionName());
             position.setPositionCode(req.getPositionCode());
-            position.setDescPosition(req.getDescPosition());
+            position.setPositionDesc(req.getPositionDesc());
             Position savedPosition = positionRepo.save(position);
             return modelMapper.map(savedPosition, PositionDto.class);
         }
@@ -45,7 +43,7 @@ public class PositionServiceImpl implements PositionService {
         if(position != null){
             position.setPositionName(req.getPositionName());
             position.setPositionCode(req.getPositionCode());
-            position.setDescPosition(req.getDescPosition());
+            position.setPositionDesc(req.getPositionDesc());
             Position savedPosition = positionRepo.save(position);
             return modelMapper.map(savedPosition, PositionDto.class);
         }else{

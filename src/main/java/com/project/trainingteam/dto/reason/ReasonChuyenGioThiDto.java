@@ -15,7 +15,7 @@ public class ReasonChuyenGioThiDto {
 
     private String reasonChuyenGioThiName;
 
-    private String descReasonChuyenGioThi;
+    private String reasonChuyenGioThiDesc;
 
     private boolean action;
 }

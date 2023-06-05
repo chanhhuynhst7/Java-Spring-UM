@@ -1,18 +1,25 @@
 package com.project.trainingteam.service.impl.letter;
 
-
 import com.project.trainingteam.dto.letter.LetterDto;
-import com.project.trainingteam.entities.file.File;
-import com.project.trainingteam.entities.letter.GroupLetter;
+import com.project.trainingteam.dto.letter.LetterTypeDto;
+import com.project.trainingteam.dto.scoreboard.ScoreBoardTypeDto;
+import com.project.trainingteam.entities.file.LetterFile;
 import com.project.trainingteam.entities.letter.Letter;
+import com.project.trainingteam.entities.letter.LetterType;
+import com.project.trainingteam.entities.request.ScoreBoardRequest;
+import com.project.trainingteam.entities.scoreboard.ScoreBoardType;
 import com.project.trainingteam.entities.user.User;
-import com.project.trainingteam.repo.inf.file.FileRepo;
-import com.project.trainingteam.repo.inf.letter.GroupLetterRepo;
 import com.project.trainingteam.repo.inf.letter.LetterRepo;
+import com.project.trainingteam.repo.inf.letter.LetterTypeRepo;
+import com.project.trainingteam.repo.inf.request.ScoreBoardRequestRepo;
+import com.project.trainingteam.repo.inf.scoreboard.ScoreBoardTypeRepo;
 import com.project.trainingteam.repo.inf.user.UserRepo;
-import com.project.trainingteam.service.inf.file.FileService;
+import com.project.trainingteam.service.inf.file.LetterFileService;
 import com.project.trainingteam.service.inf.letter.LetterService;
+import com.project.trainingteam.service.inf.request.ScoreBoardRequestService;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,16 +27,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 public class LetterServiceImpl implements LetterService {
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -37,82 +44,72 @@ public class LetterServiceImpl implements LetterService {
     private LetterRepo letterRepo;
 
     @Autowired
-    private GroupLetterRepo groupLetterRepo;
+    private LetterTypeRepo letterTypeRepo;
+
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private FileRepo fileRepo;
 
     @Autowired
-    private FileService fileService;
+    private ScoreBoardTypeRepo scoreBoardTypeRepo;
 
+    @Autowired
+    private ScoreBoardRequestService scoreBoardRequestService;
+
+    @Autowired
+    private LetterFileService letterFileService;
 
     @Override
-    public LetterDto createdLetter(String groupLetterName, MultipartFile[] multipartFiles, Letter req) throws Exception {
+    public Letter createdLetter(String letterTypeName, Letter letter, ScoreBoardRequest[] scoreBoardRequest, MultipartFile[] multipartFiles) throws Exception {
+        //xử lí đơn
+        LetterType resLetterType = letterTypeRepo.findLetterTypeByLetterTypeName(letterTypeName);
+
+        LetterTypeDto resLetterTypeDto = modelMapper.map(resLetterType,LetterTypeDto.class);
+
+        resLetterTypeDto.setLetterTypeName(letterTypeName);
+        resLetterTypeDto.setSemesterName(letter.getSemesterName());
+        resLetterTypeDto.setExamName(letter.getExamName());
+        resLetterTypeDto.setReason(letter.getReason());
+
+        Letter mappedLetter = modelMapper.map(resLetterTypeDto,Letter.class);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentName = authentication.getName();
-        Optional<User> inforUser = userRepo.findByUsername(currentName);
-        Integer check = letterRepo.countLettersWithGroupLetter(currentName,groupLetterName);
-        if(check < 1){
-            if (inforUser != null) {
-                Letter letter = new Letter();
-                letter.setUsername(inforUser.get().getUsername());
-                letter.setFullname(inforUser.get().getFullname());
-                letter.setClassUser(inforUser.get().getClassUser());
-                letter.setFacultyName(inforUser.get().getFacultyName());
-                letter.setMajor(inforUser.get().getMajor());
-                letter.setPhone(inforUser.get().getPhone());
-                letter.setGroupLetterName(groupLetterName);
-                letter.setReason(req.getReason());
-                letter.setSemesterName(req.getSemesterName());
+        User user = userRepo.findUserByUserName(currentName);
 
-                // Save the Letter object
-                Letter savedLetter = letterRepo.save(letter);
-                // Pass the generated letterId to savedMultiFile
-                List<File> file = fileService.savedMultiFile(multipartFiles, savedLetter.getId());
+        mappedLetter.setUsername(user.getUsername());
+        mappedLetter.setFullname(user.getFullname());
+        mappedLetter.setClassUser(user.getClassUser());
+        mappedLetter.setFacultyName(user.getFacultyName());
+        mappedLetter.setMajor(user.getMajor());
+        mappedLetter.setPhone(user.getPhone());
 
 
+        Letter savedLetter = letterRepo.save(mappedLetter);
 
-                LetterDto letterDto = new LetterDto();
-                letterDto.setUsername(savedLetter.getUsername());
-                letterDto.setFullname(savedLetter.getFullname());
-                letterDto.setClassUser(savedLetter.getClassUser());
-                letterDto.setFacultyName(savedLetter.getFacultyName());
-                letterDto.setMajor(savedLetter.getMajor());
-                letterDto.setPhone(savedLetter.getPhone());
-                letterDto.setGroupLetterName(savedLetter.getGroupLetterName());
-                letterDto.setReason(savedLetter.getReason());
-                letterDto.setSemesterName(savedLetter.getSemesterName());
-                letterDto.setFile(file);
-                return letterDto;
-            } else {
-                throw new Exception("Không thể tạo Letter");
-            }
-        }else{
-            throw new Exception("hết lược tạo mới");
-        }
-    };
+        //Xử lí bảng điểm
+        List<ScoreBoardRequest> scoreBoardRequestList = scoreBoardRequestService.createdListScoreBoardRequest(savedLetter.getId(),resLetterTypeDto.getId(),letterTypeName,scoreBoardRequest);
+
+        //Xử lí file
+        List<LetterFile> letterFileList = letterFileService.savedMultiLetterFile(multipartFiles, savedLetter.getId(),letterTypeName);
 
 
+        return savedLetter;
 
-    //Đang làm
+    }
+
     @Override
-    public LetterDto updatedLetter(Letter req) throws Exception {
-        Letter letter = letterRepo.findById(req.getId()).get();
-        if(letter != null){
-            // Update the savedLetter with the file association
-            letter.setProcessedDate(req.getProcessedDate());
-            letter.setResultDate(req.getResultDate());
-            letter.setStatus(req.getStatus());
-            letter.setResult(req.getResult());
-            letter.setNote(req.getNote());
-            Letter savedLetter = letterRepo.save(letter);
-            return modelMapper.map(savedLetter, LetterDto.class);
-        }else {
-            throw new Exception("Không thể update Letter");
-        }
-    };
+    public Letter updateLetter(Letter letter) {
+        Letter findLetter = letterRepo.findById(letter.getId()).get();
+        findLetter.setProcessedDate(letter.getProcessedDate());
+        findLetter.setResultDate(letter.getResultDate());
+        findLetter.setStatus(letter.getStatus());
+        findLetter.setResult(letter.getResult());
+        findLetter.setNote(letter.getNote());
+        findLetter.setTotal(letter.getTotal());
+        Letter savedLetter = letterRepo.save(findLetter);
+        return savedLetter;
+    }
 
     @Override
     public Page<LetterDto> getAllLetter(Pageable pageable) throws Exception {
@@ -124,7 +121,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
     public Page<LetterDto> getAllLetterUser(Pageable pageable) throws Exception {
@@ -138,9 +135,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
-
-
+    }
 
     @Override
     public Page<LetterDto> getUserLetterByStatus0(Pageable pageable) throws Exception {
@@ -155,7 +150,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
     public Page<LetterDto> getUserLetterByStatus1(Pageable pageable) throws Exception {
@@ -170,7 +165,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
     public Page<LetterDto> getUserLetterByStatus2(Pageable pageable) throws Exception {
@@ -185,10 +180,9 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
-    ////////////////////////////////////////////////////////////////////////////////
-
+    /////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Page<LetterDto> getAllLetterFaculty(String facultyName, Pageable pageable) throws Exception {
         Page<Letter> letterPage = letterRepo.findLetterByFacultyName(facultyName,pageable);
@@ -199,7 +193,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
     public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus0And1(Pageable pageable) throws Exception {
@@ -214,7 +208,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
     public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus0(Pageable pageable) throws Exception {
@@ -229,7 +223,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
     public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus1(Pageable pageable) throws Exception {
@@ -244,7 +238,7 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
     public Page<LetterDto> getFacultyLetterByFacultyNameAndStatus2(Pageable pageable) throws Exception {
@@ -259,30 +253,30 @@ public class LetterServiceImpl implements LetterService {
         }else{
             throw new Exception("Không tìm thấy List Letter");
         }
-    };
+    }
 
     @Override
-    public LetterDto getLetterById(Long letterId) throws Exception {
-        Letter letter = letterRepo.findById(letterId).get();
+    public LetterDto getLetterById(Long id) throws Exception {
+        Letter letter = letterRepo.findById(id).get();
         if(letter != null){
             return modelMapper.map(letter, LetterDto.class);
         }else{
             throw new Exception("không tìm thấy Letter");
         }
-    };
-
+    }
 
     @Override
-    public String deletedLetter(Long letterId) {
-        letterRepo.deleteById(letterId);
+    public String deletedLetter(Long id) {
+        letterRepo.deleteById(id);
         return "Delete thành Công";
     }
 
     @Override
-    public List<LetterDto> getListLetter() {
-        List<Letter> letterList = letterRepo.findAllLetter();
-        return letterList.stream().map((result) -> modelMapper.map(result,LetterDto.class)).collect(Collectors.toList());
+    public User hello() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        User user = userRepo.findUserByUserName(currentName);
+        return user;
     }
-
-
 }
+

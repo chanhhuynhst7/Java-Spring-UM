@@ -23,7 +23,7 @@ public class LetterFileServiceImpl implements LetterFileService {
 
     @Override
     @Transactional
-    public List<LetterFile> savedMultiLetterFile(MultipartFile[] multipartFiles, Long letterId, String groupLetterName) throws Exception {
+    public List<LetterFile> savedMultiLetterFile(MultipartFile[] multipartFiles, Long letterId, String letterTypeName) throws Exception {
         List<LetterFile> fileUpLoad = new ArrayList<>();
         Arrays.stream(multipartFiles).forEach(file -> {
             try {
@@ -34,7 +34,7 @@ public class LetterFileServiceImpl implements LetterFileService {
                 f.setFileType(file.getContentType());
                 f.setData(file.getBytes());
                 f.setLetterId(letterId);
-                f.setGroupLetterName(groupLetterName);
+                f.setLetterTypeName(letterTypeName);
                 // Set the Letter object with the provided letterId
                 LetterFile savedLetterFile = letterFileRepo.save(f);
 

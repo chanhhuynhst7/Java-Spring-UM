@@ -21,7 +21,7 @@ public class RoleDto {
 
     private String roleCode;
 
-    private String descRole;
+    private String roleDesc;
 
     private boolean action;
 }

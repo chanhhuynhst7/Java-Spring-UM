@@ -25,7 +25,7 @@ public class Position {
     @Column(nullable = false)
     private String positionCode;
 
-    private String descPosition;
+    private String positionDesc;
 
     private boolean action = true;
 }

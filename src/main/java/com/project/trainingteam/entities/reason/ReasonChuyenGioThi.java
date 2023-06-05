@@ -20,10 +20,10 @@ public class ReasonChuyenGioThi {
     @Column(name = "reason_chuyen_gio_thi_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String reasonChuyenGioThiName;
 
-    private String descReasonChuyenGioThi;
+    private String reasonChuyenGioThiDesc;
 
     private boolean action  = true;
 };

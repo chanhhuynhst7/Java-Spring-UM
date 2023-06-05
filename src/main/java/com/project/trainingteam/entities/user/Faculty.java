@@ -26,7 +26,7 @@ public class Faculty extends Auditable {
     @Column(nullable = false)
     private String facultyCode;
 
-    private String descFaculty;
+    private String facultyDesc;
 
     private boolean action = true;
 

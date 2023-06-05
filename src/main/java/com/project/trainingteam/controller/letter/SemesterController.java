@@ -1,8 +1,6 @@
 package com.project.trainingteam.controller.letter;
 
-import com.project.trainingteam.dto.letter.GroupLetterDto;
 import com.project.trainingteam.dto.letter.SemesterDto;
-import com.project.trainingteam.entities.letter.GroupLetter;
 import com.project.trainingteam.entities.letter.Semester;
 import com.project.trainingteam.service.inf.letter.SemesterService;
 import lombok.AllArgsConstructor;

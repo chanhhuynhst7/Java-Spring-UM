@@ -23,8 +23,8 @@ public class LetterFileController {
     private LetterFileService letterFileService;
 
     @PostMapping("/upload-multiple")
-    public ResponseEntity<List<LetterFile>> uploadMultiFile(@RequestParam("files") MultipartFile[] multipartFiles, Long letterId, String groupLetterName)throws Exception{
-        List<LetterFile> letterFileList = letterFileService.savedMultiLetterFile(multipartFiles,letterId,groupLetterName);
+    public ResponseEntity<List<LetterFile>> uploadMultiFile(@RequestParam("files") MultipartFile[] multipartFiles, Long letterId, String letterTypeName)throws Exception{
+        List<LetterFile> letterFileList = letterFileService.savedMultiLetterFile(multipartFiles,letterId,letterTypeName);
         return new ResponseEntity<>(letterFileList, HttpStatus.CREATED);
     }
 

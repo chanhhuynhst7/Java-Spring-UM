@@ -25,7 +25,7 @@ public class Role extends Auditable {
     @Column(nullable = false)
     private String roleCode;
 
-    private String descRole;
+    private String roleDesc;
 
     private boolean action = true;
 }

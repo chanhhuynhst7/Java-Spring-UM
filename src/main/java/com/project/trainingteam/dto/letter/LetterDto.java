@@ -1,22 +1,22 @@
 package com.project.trainingteam.dto.letter;
 
-
-import com.project.trainingteam.entities.file.File;
-import com.project.trainingteam.entities.letter.GroupLetter;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class LetterDto {
+
 
     private Long id;
 
@@ -32,27 +32,27 @@ public class LetterDto {
 
     private String phone;
 
-    private String reason;
-
-    private String semesterName;
-
     private Date processedDate;
 
     private Date resultDate;
 
-    private String note = "";
+    private String note ;
 
-    private Integer status = 0;
+    private Integer status ;
 
-    private Integer result = 0;
+    private Integer result;
+
+    private String letterTypeName;
+
+    private String semesterName;
+
+    private String examName;
+
+    private String reason;
 
     private String handlePart;
 
+    private Integer total;
+
     private boolean isDeleted;
-
-    private String groupLetterName;
-
-    private List<File> file;
-
-
 }

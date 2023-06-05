@@ -1,9 +1,7 @@
 package com.project.trainingteam.controller.letter;
 
 import com.project.trainingteam.dto.letter.ExamDto;
-import com.project.trainingteam.dto.letter.GroupLetterDto;
 import com.project.trainingteam.entities.letter.Exam;
-import com.project.trainingteam.entities.letter.GroupLetter;
 import com.project.trainingteam.service.inf.letter.ExamService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

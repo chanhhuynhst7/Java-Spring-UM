@@ -1,9 +1,9 @@
 package com.project.trainingteam.service.impl.letter;
 
 import com.project.trainingteam.dto.letter.ExamDto;
-import com.project.trainingteam.dto.letter.GroupLetterDto;
+import com.project.trainingteam.dto.scoreboard.ScoreBoardTypeDto;
 import com.project.trainingteam.entities.letter.Exam;
-import com.project.trainingteam.entities.letter.GroupLetter;
+import com.project.trainingteam.entities.scoreboard.ScoreBoardType;
 import com.project.trainingteam.repo.inf.letter.ExamRepo;
 import com.project.trainingteam.service.inf.letter.ExamService;
 import org.modelmapper.ModelMapper;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class ExamServiceImpl implements ExamService {
             Exam exam = new Exam();
             exam.setExamName(req.getExamName());
             exam.setExamCode(req.getExamCode());
-            exam.setDescExam(req.getDescExam());
+            exam.setExamDesc(req.getExamDesc());
             Exam savedExam = examRepo.save(exam);
             return modelMapper.map(savedExam, ExamDto.class);
         }
@@ -48,7 +49,7 @@ public class ExamServiceImpl implements ExamService {
         if(exam != null){
             exam.setExamName(req.getExamName());
             exam.setExamCode(req.getExamCode());
-            exam.setDescExam(req.getDescExam());
+            exam.setExamDesc(req.getExamDesc());
             Exam savedExam = examRepo.save(exam);
             return modelMapper.map(savedExam,ExamDto.class);
         }else{
@@ -72,5 +73,15 @@ public class ExamServiceImpl implements ExamService {
     public String deletedExam(Long id) {
         examRepo.deleteById(id);
         return "Delete Thành Công";
+    }
+
+    @Override
+    public List<Exam> createdListExam(List<Exam> examList) {
+        List<Exam> examDtoList = new ArrayList<>();
+
+        for (Exam exam : examList) {
+            examDtoList.add(exam);
+        }
+        return examDtoList;
     };
 }

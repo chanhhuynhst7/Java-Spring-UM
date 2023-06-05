@@ -47,6 +47,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/token").permitAll()
                 .requestMatchers("/api/user/create").permitAll()
+                .requestMatchers("/api/letter-type/**").permitAll()
+                .requestMatchers("/api/letter/**").permitAll()
                 .requestMatchers("/api/file/download/**").permitAll()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();

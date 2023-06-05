@@ -1,12 +1,8 @@
 package com.project.trainingteam.service.impl.letter;
 
 
-import com.project.trainingteam.dto.file.LetterFileDto;
-import com.project.trainingteam.dto.letter.LetterDto;
 import com.project.trainingteam.dto.letter.XemXetDiemTrungBinhDto;
-import com.project.trainingteam.entities.file.File;
 import com.project.trainingteam.entities.file.LetterFile;
-import com.project.trainingteam.entities.letter.Letter;
 import com.project.trainingteam.entities.letter.XemXetDiemTrungBinh;
 import com.project.trainingteam.entities.user.User;
 import com.project.trainingteam.repo.inf.letter.XemXetDiemTrungBinhRepo;

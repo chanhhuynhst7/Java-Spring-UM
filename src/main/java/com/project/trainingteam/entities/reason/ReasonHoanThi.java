@@ -22,7 +22,7 @@ public class ReasonHoanThi {
     @Column(nullable = false)
     private String reasonHoanThiName;
 
-    private String descReasonHoanThi;
+    private String reasonHoanThiDesc;
 
     private boolean action = true;
 };

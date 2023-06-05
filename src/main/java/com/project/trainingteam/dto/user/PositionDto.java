@@ -17,7 +17,7 @@ public class PositionDto {
 
     private String positionCode;
 
-    private String descPosition;
+    private String positionDesc;
 
     private boolean action;
 }

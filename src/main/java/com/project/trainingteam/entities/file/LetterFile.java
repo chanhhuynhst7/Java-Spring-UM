@@ -25,11 +25,13 @@ public class LetterFile extends Auditable {
 
     private Long letterId;
 
-    private String groupLetterName;
+    private String letterTypeName;
 
     private String fileType;
 
     private String downloadUrl;
     @Lob
     private byte[] data;
+
+
 }

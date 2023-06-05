@@ -1,9 +1,7 @@
 package com.project.trainingteam.service.impl.user;
 
 import com.project.trainingteam.dto.user.FacultyDto;
-import com.project.trainingteam.dto.user.UserDto;
 import com.project.trainingteam.entities.user.Faculty;
-import com.project.trainingteam.entities.user.User;
 import com.project.trainingteam.repo.inf.user.FacultyRepo;
 import com.project.trainingteam.service.inf.user.FacultyService;
 import org.modelmapper.ModelMapper;
@@ -33,7 +31,7 @@ public class FacultyServiceImpl implements FacultyService {
             Faculty faculty = new Faculty();
             faculty.setFacultyName(req.getFacultyName());
             faculty.setFacultyCode(req.getFacultyCode());
-            faculty.setDescFaculty(req.getDescFaculty());
+            faculty.setFacultyDesc(req.getFacultyDesc());
             Faculty savedFaculty = facultyRepo.save(faculty);
             return modelMapper.map(savedFaculty,FacultyDto.class);
         }
@@ -45,7 +43,7 @@ public class FacultyServiceImpl implements FacultyService {
         if(faculty != null){
             faculty.setFacultyName(req.getFacultyName());
             faculty.setFacultyCode(req.getFacultyCode());
-            faculty.setDescFaculty(req.getDescFaculty());
+            faculty.setFacultyDesc(req.getFacultyDesc());
             Faculty savedFaculty = facultyRepo.save(faculty);
             return modelMapper.map(savedFaculty,FacultyDto.class);
         }else{

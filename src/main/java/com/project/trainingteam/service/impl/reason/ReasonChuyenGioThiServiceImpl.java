@@ -1,8 +1,6 @@
 package com.project.trainingteam.service.impl.reason;
 
-import com.project.trainingteam.dto.letter.SemesterDto;
 import com.project.trainingteam.dto.reason.ReasonChuyenGioThiDto;
-import com.project.trainingteam.entities.letter.Semester;
 import com.project.trainingteam.entities.reason.ReasonChuyenGioThi;
 import com.project.trainingteam.repo.inf.reason.ReasonChuyenGioThiRepo;
 import com.project.trainingteam.service.inf.reason.ReasonChuyenGioThiService;
@@ -33,7 +31,7 @@ public class ReasonChuyenGioThiServiceImpl implements ReasonChuyenGioThiService 
         }else{
             ReasonChuyenGioThi reasonChuyenGioThi = new ReasonChuyenGioThi();
             reasonChuyenGioThi.setReasonChuyenGioThiName(req.getReasonChuyenGioThiName());
-            reasonChuyenGioThi.setDescReasonChuyenGioThi(req.getDescReasonChuyenGioThi());
+            reasonChuyenGioThi.setReasonChuyenGioThiDesc(req.getReasonChuyenGioThiDesc());
             ReasonChuyenGioThi savedreasonChuyenGioThi = reasonChuyenGioThiRepo.save(reasonChuyenGioThi);
             return modelMapper.map(savedreasonChuyenGioThi, ReasonChuyenGioThiDto.class);
         }
@@ -44,7 +42,7 @@ public class ReasonChuyenGioThiServiceImpl implements ReasonChuyenGioThiService 
         ReasonChuyenGioThi reasonChuyenGioThi = reasonChuyenGioThiRepo.findById(req.getId()).get();
         if(reasonChuyenGioThi != null){
             reasonChuyenGioThi.setReasonChuyenGioThiName(req.getReasonChuyenGioThiName());
-            reasonChuyenGioThi.setDescReasonChuyenGioThi(req.getDescReasonChuyenGioThi());
+            reasonChuyenGioThi.setReasonChuyenGioThiDesc(req.getReasonChuyenGioThiDesc());
             ReasonChuyenGioThi savedreasonChuyenGioThi = reasonChuyenGioThiRepo.save(reasonChuyenGioThi);
             return modelMapper.map(savedreasonChuyenGioThi,ReasonChuyenGioThiDto.class);
         }else{

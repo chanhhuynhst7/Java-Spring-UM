@@ -15,7 +15,7 @@ public class ReasonHoanThiDto {
 
     private String reasonHoanThiName;
 
-    private String descReasonHoanThi;
+    private String reasonHoanThiDesc;
 
     private boolean action;
 }

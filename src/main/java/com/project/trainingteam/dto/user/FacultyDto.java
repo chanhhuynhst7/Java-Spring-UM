@@ -18,7 +18,7 @@ public class FacultyDto {
 
     private String facultyCode;
 
-    private String descFaculty;
+    private String facultyDesc;
 
     private boolean action ;
 }

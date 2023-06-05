@@ -1,8 +1,6 @@
 package com.project.trainingteam.service.impl.user;
 
-import com.project.trainingteam.dto.user.FacultyDto;
 import com.project.trainingteam.dto.user.RoleDto;
-import com.project.trainingteam.entities.user.Faculty;
 import com.project.trainingteam.entities.user.Role;
 import com.project.trainingteam.repo.inf.user.RoleRepo;
 import com.project.trainingteam.service.inf.user.RoleService;
@@ -33,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
             Role role = new Role();
             role.setRoleName(req.getRoleName());
             role.setRoleCode(req.getRoleCode());
-            role.setDescRole(req.getDescRole());
+            role.setRoleDesc(req.getRoleDesc());
             Role savedRole = roleRepo.save(role);
             return modelMapper.map(savedRole, RoleDto.class);
         }
@@ -45,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
         if(role != null){
             role.setRoleName(req.getRoleName());
             role.setRoleCode(req.getRoleCode());
-            role.setDescRole(req.getDescRole());
+            role.setRoleDesc(req.getRoleDesc());
             Role savedRole = roleRepo.save(role);
             return modelMapper.map(savedRole,RoleDto.class);
         }else{

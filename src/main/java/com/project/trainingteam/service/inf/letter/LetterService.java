@@ -1,26 +1,25 @@
 package com.project.trainingteam.service.inf.letter;
 
 import com.project.trainingteam.dto.letter.LetterDto;
-import com.project.trainingteam.dto.letter.SemesterDto;
 import com.project.trainingteam.entities.letter.Letter;
-import com.project.trainingteam.entities.letter.Semester;
+import com.project.trainingteam.entities.letter.LetterType;
+import com.project.trainingteam.entities.request.ScoreBoardRequest;
+import com.project.trainingteam.entities.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 public interface LetterService {
 
-    //tạo đơn
-    LetterDto createdLetter(@Param("groupLetterName") String groupLetterName, MultipartFile[] multipartFiles, @RequestBody Letter req) throws Exception;
+    //User tạo đơn
+    Letter createdLetter(@Param("letterTypeName") String letterTypeName, Letter letter, ScoreBoardRequest[] scoreBoardRequest, MultipartFile[] multipartFiles) throws Exception;
 
-    //updatedLetter là xử lí đơn
-    LetterDto updatedLetter(Letter req) throws Exception;
+    //ADMIN xử lí đơn
+    Letter updateLetter(Letter letter);
 
     //tất cả đơn
     Page<LetterDto> getAllLetter(Pageable pageable) throws Exception;
@@ -55,10 +54,10 @@ public interface LetterService {
 
 
     ///////////////////////////////////////////////////////////////////////////
-   LetterDto getLetterById(Long id) throws Exception;
+    LetterDto getLetterById(Long id) throws Exception;
 
     String deletedLetter(Long id);
 
-    List<LetterDto> getListLetter();
+    User hello();
 
 }

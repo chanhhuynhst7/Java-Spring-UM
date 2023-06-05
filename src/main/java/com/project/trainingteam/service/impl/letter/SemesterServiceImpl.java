@@ -1,8 +1,6 @@
 package com.project.trainingteam.service.impl.letter;
 
-import com.project.trainingteam.dto.letter.GroupLetterDto;
 import com.project.trainingteam.dto.letter.SemesterDto;
-import com.project.trainingteam.entities.letter.GroupLetter;
 import com.project.trainingteam.entities.letter.Semester;
 import com.project.trainingteam.repo.inf.letter.SemesterRepo;
 import com.project.trainingteam.service.inf.letter.SemesterService;
@@ -64,6 +62,8 @@ public class SemesterServiceImpl implements SemesterService {
         }
     };
 
+    //findAll
+    //
     @Override
     public String deletedSemester(Long id) {
         semesterRepo.deleteById(id);

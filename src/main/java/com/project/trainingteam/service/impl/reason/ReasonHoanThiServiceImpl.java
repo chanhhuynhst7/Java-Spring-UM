@@ -1,8 +1,6 @@
 package com.project.trainingteam.service.impl.reason;
 
-import com.project.trainingteam.dto.reason.ReasonDangKyDuThiDto;
 import com.project.trainingteam.dto.reason.ReasonHoanThiDto;
-import com.project.trainingteam.entities.reason.ReasonDangKyDuThi;
 import com.project.trainingteam.entities.reason.ReasonHoanThi;
 import com.project.trainingteam.repo.inf.reason.ReasonHoanThiRepo;
 import com.project.trainingteam.service.inf.reason.ReasonHoanThiService;
@@ -31,7 +29,7 @@ public class ReasonHoanThiServiceImpl implements ReasonHoanThiService {
         }else{
             ReasonHoanThi reasonHoanThi = new ReasonHoanThi();
             reasonHoanThi.setReasonHoanThiName(req.getReasonHoanThiName());
-            reasonHoanThi.setDescReasonHoanThi(req.getDescReasonHoanThi());
+            reasonHoanThi.setReasonHoanThiDesc(req.getReasonHoanThiDesc());
             ReasonHoanThi savedReasonHoanThi = reasonHoanThiRepo.save(reasonHoanThi);
             return modelMapper.map(savedReasonHoanThi, ReasonHoanThiDto.class);
         }
@@ -42,7 +40,7 @@ public class ReasonHoanThiServiceImpl implements ReasonHoanThiService {
         ReasonHoanThi reasonHoanThi = reasonHoanThiRepo.findById(req.getId()).get();
         if(reasonHoanThi != null){
             reasonHoanThi.setReasonHoanThiName(req.getReasonHoanThiName());
-            reasonHoanThi.setDescReasonHoanThi(req.getDescReasonHoanThi());
+            reasonHoanThi.setReasonHoanThiDesc(req.getReasonHoanThiDesc());
             ReasonHoanThi savedReasonHoanThi = reasonHoanThiRepo.save(reasonHoanThi);
             return modelMapper.map(savedReasonHoanThi,ReasonHoanThiDto.class);
         }else{
