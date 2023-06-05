@@ -1,6 +1,7 @@
 package com.project.trainingteam.controller.file;
 
 
+import com.project.trainingteam.dto.file.LetterFileDto;
 import com.project.trainingteam.entities.file.LetterFile;
 import com.project.trainingteam.service.inf.file.LetterFileService;
 import lombok.AllArgsConstructor;
@@ -37,4 +38,11 @@ public class LetterFileController {
         ByteArrayResource content = new ByteArrayResource(letterFile.getData());
         return ResponseEntity.ok().headers(httpHeaders).body(content);
     }
+
+    @GetMapping("/find/{letterId}")
+    public ResponseEntity<List<LetterFileDto>> findLetterFileUserByUserNameAndLetterId(@PathVariable("letterId")Long letterId) throws Exception {
+        List<LetterFileDto> letterFileDtoList = letterFileService.findLetterFileUserByUserNameAndLetterId(letterId);
+        return new ResponseEntity<>(letterFileDtoList,HttpStatus.OK);
+    }
+
 }

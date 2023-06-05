@@ -16,6 +16,8 @@ public class LetterFileDto {
 
     private Long letterId;
 
+    private String letterTypeName;
+
     private String fileName;
 
     private String downloadUrl;

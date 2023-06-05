@@ -22,4 +22,10 @@ public class ScoreBoardRequestController {
         List<ScoreBoardRequest> createdListScoreBoardRequest = scoreBoardRequestService.createdListScoreBoardRequest(letterId,letterTypeId,letterTypeName,scoreBoardRequest);
         return new ResponseEntity<>(createdListScoreBoardRequest, HttpStatus.CREATED);
     }
+
+    @GetMapping("/find/{letterId}")
+    public ResponseEntity<List<ScoreBoardRequest>> findScoreBoardRequestByLetterId(@PathVariable("letterId")Long letterId){
+        List<ScoreBoardRequest> scoreBoardRequestList = scoreBoardRequestService.findScoreBoardRequestByLetterId(letterId);
+        return new ResponseEntity<>(scoreBoardRequestList,HttpStatus.OK);
+    }
 }

@@ -47,5 +47,13 @@ public class ScoreBoardRequestServiceImpl implements ScoreBoardRequestService {
         }
 
         return scoreBoardRequestList;
-    };
+    }
+
+    @Override
+    public List<ScoreBoardRequest> findScoreBoardRequestByLetterId(Long letterId) {
+        List<ScoreBoardRequest> scoreBoardRequestList = scoreBoardRequestRepo.findScoreBoardRequestByLetterId(letterId);
+        return scoreBoardRequestList;
+    }
+
+    ;
 }
