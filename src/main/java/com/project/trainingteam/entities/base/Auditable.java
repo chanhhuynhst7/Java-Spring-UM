@@ -39,7 +39,4 @@ public class Auditable {
     @Temporal(TemporalType.TIMESTAMP)
     protected Date lastModifiedDate;
 
-
-
-
 }

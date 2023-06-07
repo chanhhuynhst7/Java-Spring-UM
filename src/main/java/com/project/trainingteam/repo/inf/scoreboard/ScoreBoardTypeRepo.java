@@ -11,6 +11,9 @@ import java.util.List;
 public interface ScoreBoardTypeRepo extends JpaRepository<ScoreBoardType,Long> {
 
 
-    @Query("SELECT s FROM ScoreBoardType s WHERE s.letterTypeName = :letterTypeName ")
-    List<ScoreBoardType> findScoreBoardTypeByLetterTypeName(String letterTypeName);
+//    @Query("SELECT s FROM ScoreBoardType s WHERE s.letterTypeName = :letterTypeName ")
+//    List<ScoreBoardType> findScoreBoardTypeByLetterTypeName(String letterTypeName);
+
+    @Query("SELECT s FROM ScoreBoardType s WHERE s.action = true")
+    List<ScoreBoardType> findAllScoreBoardTypeByAction();
 }

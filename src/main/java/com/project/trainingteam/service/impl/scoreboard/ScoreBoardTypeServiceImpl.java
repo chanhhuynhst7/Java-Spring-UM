@@ -36,8 +36,8 @@ public class ScoreBoardTypeServiceImpl implements ScoreBoardTypeService {
         List<ScoreBoardType> newScoreBoardTypeList = new ArrayList<>();
 
         for (ScoreBoardType scoreBoardType : scoreBoardTypeList) {
-            scoreBoardType.setLetterTypeId(letterTypeId);
-            scoreBoardType.setLetterTypeName(letterTypeName);
+//            scoreBoardType.setLetterTypeId(letterTypeId);
+//            scoreBoardType.setLetterTypeName(letterTypeName);
             ScoreBoardType savedScoreBoardType = scoreBoardTypeRepo.save(scoreBoardType);
             newScoreBoardTypeList.add(savedScoreBoardType);
         }
@@ -46,7 +46,8 @@ public class ScoreBoardTypeServiceImpl implements ScoreBoardTypeService {
 
     @Override
     public List<ScoreBoardType> findScoreBoardTypeByLetterTypeName(String letterTypeName) {
-        List<ScoreBoardType> scoreBoardTypeList = scoreBoardTypeRepo.findScoreBoardTypeByLetterTypeName(letterTypeName);
-        return scoreBoardTypeList;
+//        List<ScoreBoardType> scoreBoardTypeList = scoreBoardTypeRepo.findScoreBoardTypeByLetterTypeName(letterTypeName);
+//        return scoreBoardTypeList;
+        return null;
     }
 }

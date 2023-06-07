@@ -17,9 +17,9 @@ public class ScoreBoardRequestController {
 
     private ScoreBoardRequestService scoreBoardRequestService;
 
-    @PostMapping("/create/{letterId}/{letterTypeId}/{letterTypeName}")
-    public ResponseEntity<List<ScoreBoardRequest>> createdListScoreBoardRequest(@PathVariable("letterId")Long letterId,@PathVariable("letterTypeId")Long letterTypeId, @PathVariable("letterTypeName")String letterTypeName, @RequestPart("scoreboard") ScoreBoardRequest[] scoreBoardRequest) throws Exception {
-        List<ScoreBoardRequest> createdListScoreBoardRequest = scoreBoardRequestService.createdListScoreBoardRequest(letterId,letterTypeId,letterTypeName,scoreBoardRequest);
+    @PostMapping("/create/{letterId}/{letterTypeName}")
+    public ResponseEntity<List<ScoreBoardRequest>> createdListScoreBoardRequest(@PathVariable("letterId")Long letterId,@PathVariable("letterTypeName")String letterTypeName, @RequestPart("scoreboard") ScoreBoardRequest[] scoreBoardRequest) throws Exception {
+        List<ScoreBoardRequest> createdListScoreBoardRequest = scoreBoardRequestService.createdListScoreBoardRequest(letterId,letterTypeName,scoreBoardRequest);
         return new ResponseEntity<>(createdListScoreBoardRequest, HttpStatus.CREATED);
     }
 

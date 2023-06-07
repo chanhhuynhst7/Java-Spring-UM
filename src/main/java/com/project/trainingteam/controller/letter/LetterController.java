@@ -143,9 +143,11 @@ public class LetterController {
     };
 
     @GetMapping("/hello")
-    public ResponseEntity<User> Hello(){
-        User result = letterService.hello();
-//        return result;
+    public ResponseEntity<String> Hello(){
+//        User result = letterService.hello();
+////        return result;
+//        return new ResponseEntity<>(result,HttpStatus.OK);
+        String result = letterService.hello();
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }

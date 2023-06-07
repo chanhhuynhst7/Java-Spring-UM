@@ -31,9 +31,9 @@ public class ScoreBoardController {
         return new ResponseEntity<>(createdScoreBoardTypeList, HttpStatus.CREATED);
     }
 
-    @GetMapping("/find/{letterTypeName}")
-    public ResponseEntity<List<ScoreBoardType>> findScoreBoardTypeByLetterTypeName(@PathVariable("letterTypeName")String letterTypeName){
-        List<ScoreBoardType> findScoreBoardTypeByLetterTypeName = scoreBoardTypeService.findScoreBoardTypeByLetterTypeName(letterTypeName);
-        return new ResponseEntity<>(findScoreBoardTypeByLetterTypeName,HttpStatus.OK);
-    }
+//    @GetMapping("/find/{letterTypeName}")
+//    public ResponseEntity<List<ScoreBoardType>> findScoreBoardTypeByLetterTypeName(@PathVariable("letterTypeName")String letterTypeName){
+//        List<ScoreBoardType> findScoreBoardTypeByLetterTypeName = scoreBoardTypeService.findScoreBoardTypeByLetterTypeName(letterTypeName);
+//        return new ResponseEntity<>(findScoreBoardTypeByLetterTypeName,HttpStatus.OK);
+//    }
 }

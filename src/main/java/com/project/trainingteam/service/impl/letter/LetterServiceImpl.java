@@ -69,6 +69,7 @@ public class LetterServiceImpl implements LetterService {
         resLetterTypeDto.setLetterTypeName(letterTypeName);
         resLetterTypeDto.setSemesterName(letter.getSemesterName());
         resLetterTypeDto.setExamName(letter.getExamName());
+        resLetterTypeDto.setPrintedQuantity(letter.getPrintedQuantity());
         resLetterTypeDto.setReason(letter.getReason());
 
         Letter mappedLetter = modelMapper.map(resLetterTypeDto,Letter.class);
@@ -88,7 +89,7 @@ public class LetterServiceImpl implements LetterService {
         Letter savedLetter = letterRepo.save(mappedLetter);
 
         //Xử lí bảng điểm
-        List<ScoreBoardRequest> scoreBoardRequestList = scoreBoardRequestService.createdListScoreBoardRequest(savedLetter.getId(),resLetterTypeDto.getId(),letterTypeName,scoreBoardRequest);
+        List<ScoreBoardRequest> scoreBoardRequestList = scoreBoardRequestService.createdListScoreBoardRequest(savedLetter.getId(),letterTypeName,scoreBoardRequest);
 
         //Xử lí file
         List<LetterFile> letterFileList = letterFileService.savedMultiLetterFile(multipartFiles, savedLetter.getId(),letterTypeName);
@@ -272,11 +273,13 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
-    public User hello() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentName = authentication.getName();
-        User user = userRepo.findUserByUserName(currentName);
-        return user;
+    public String hello() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentName = authentication.getName();
+//        User user = userRepo.findUserByUserName(currentName);
+//        retu"rn user;
+        String result = "Hello";
+        return result;
     }
 }
 

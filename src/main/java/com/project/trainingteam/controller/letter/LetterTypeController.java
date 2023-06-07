@@ -21,8 +21,8 @@ public class LetterTypeController {
     private LetterTypeService letterTypeService;
 
     @PostMapping("/create")
-    public ResponseEntity<LetterTypeDto> createdLetterTypeDto(@RequestPart("content") LetterType letterType, @RequestPart("scoreboard") ScoreBoardType[] scoreBoardTypeList) throws Exception {
-        LetterTypeDto createdLetterTypeDto = letterTypeService.createLetterType(letterType,scoreBoardTypeList);
+    public ResponseEntity<LetterTypeDto> createdLetterTypeDto(@RequestBody LetterType letterType) throws Exception {
+        LetterTypeDto createdLetterTypeDto = letterTypeService.createLetterType(letterType);
         return new ResponseEntity<>(createdLetterTypeDto, HttpStatus.CREATED);
     };
 

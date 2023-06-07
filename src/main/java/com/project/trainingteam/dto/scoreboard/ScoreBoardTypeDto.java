@@ -14,10 +14,6 @@ public class ScoreBoardTypeDto {
 
     private Long id;
 
-    private Long letterTypeId;
-
-    private String letterTypeName;
-
     private String scoreBoardTypeName;
 
     private Integer scoreBoardTypeQuantity ;

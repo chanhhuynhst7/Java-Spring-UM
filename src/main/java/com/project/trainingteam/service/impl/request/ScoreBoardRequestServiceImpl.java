@@ -28,11 +28,13 @@ public class ScoreBoardRequestServiceImpl implements ScoreBoardRequestService {
 
 
     @Override
-    public List<ScoreBoardRequest> createdListScoreBoardRequest(Long letterId, Long letterTypeId, String letterTypeName, ScoreBoardRequest[] scoreBoardRequest) {
-        List<ScoreBoardType> scoreBoardTypeList = scoreBoardTypeRepo.findScoreBoardTypeByLetterTypeName(letterTypeName);
+    public List<ScoreBoardRequest> createdListScoreBoardRequest(Long letterId, String letterTypeName, ScoreBoardRequest[] scoreBoardRequest) {
+        List<ScoreBoardType> scoreBoardTypeList = scoreBoardTypeRepo.findAllScoreBoardTypeByAction();
         List<ScoreBoardRequest> scoreBoardRequestList = new ArrayList<>();
 
-        for (int i = 0; i < scoreBoardTypeList.size(); i++) {
+        int length = Math.min(scoreBoardTypeList.size(), scoreBoardRequest.length);
+
+        for (int i = 0; i < length; i++) {
             ScoreBoardType scoreBoardType = scoreBoardTypeList.get(i);
             ScoreBoardRequest scoreBoardRequestItem = scoreBoardRequest[i];
 

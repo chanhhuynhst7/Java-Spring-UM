@@ -1,5 +1,6 @@
 package com.project.trainingteam.entities.letter;
 
+import com.project.trainingteam.entities.base.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name="um_exam")
-public class Exam {
+public class Exam extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

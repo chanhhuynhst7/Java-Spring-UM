@@ -1,5 +1,6 @@
 package com.project.trainingteam.entities.reason;
 
+import com.project.trainingteam.entities.base.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,19 +12,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="um_reason_dang_ky_du_thi")
-public class ReasonDangKyDuThi {
+@Table(name="um_letter_reason")
+public class LetterReason extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reason_dang_ky_du_thi_id")
+    @Column(name = "letter_reason_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String reasonDangKyDuThiName;
+    private String letterTypeName;
 
-    private String descReasonDangKyDuThi;
+    private String letterReasonName;
 
-    private boolean action = true ;
+    private String letterReasonDesc = "";
 
-};
+    private boolean action = true;
+}

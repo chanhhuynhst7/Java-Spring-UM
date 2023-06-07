@@ -9,13 +9,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReasonDangKyDuThiDto {
+public class LetterReasonDto {
 
     private Long id;
 
-    private String reasonDangKyDuThiName;
+    private String letterTypeName;
 
-    private String descReasonDangKyDuThi;
+    private String letterReasonName;
+
+    private String letterReasonDesc;
 
     private boolean action;
 }

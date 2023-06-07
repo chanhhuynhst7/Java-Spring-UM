@@ -1,5 +1,4 @@
-package com.project.trainingteam.entities.user;
-
+package com.project.trainingteam.entities.file;
 
 import com.project.trainingteam.entities.base.Auditable;
 import jakarta.persistence.*;
@@ -8,27 +7,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="um_faculty")
-public class Faculty extends Auditable {
+@Table(name="um_news_file")
+public class NewsFile extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "faculty_id")
+    @Column(name = "news_file_id")
     private Long id;
 
-    @Column(nullable = false,unique = true)
-    private String facultyName;
+    private long notificationId;
 
-    @Column(nullable = false)
-    private String facultyCode;
+    private String notificationTitle;
 
-    private String facultyDesc;
+    private String fileName;
 
-    private boolean action = true;
+    private String fileType;
 
+    private String downloadUrl;
+
+    @Lob
+    private byte[] data;
 }

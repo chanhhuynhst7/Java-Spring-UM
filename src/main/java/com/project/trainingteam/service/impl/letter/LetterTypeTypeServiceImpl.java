@@ -32,9 +32,12 @@ public class LetterTypeTypeServiceImpl implements LetterTypeService {
     private ScoreBoardTypeService scoreBoardTypeService;
 
 
+    @Autowired
+    private ScoreBoardTypeRepo scoreBoardTypeRepo;
+
 
     @Override
-    public LetterTypeDto createLetterType(LetterType letterType,ScoreBoardType[] scoreBoardTypeList) {
+    public LetterTypeDto createLetterType(LetterType letterType) {
         LetterType savedLetterType = letterTypeRepo.save(letterType);
 
         if(savedLetterType.isCheckSemesterName() == false){
@@ -48,6 +51,10 @@ public class LetterTypeTypeServiceImpl implements LetterTypeService {
             savedLetterType.setTotal(null);
         }
 
+        if(savedLetterType.isCheckPrintedQuantity() == false){
+            savedLetterType.setPrintedQuantity(null);
+        }
+
         savedLetterType = letterTypeRepo.save(savedLetterType);
 
 
@@ -55,7 +62,7 @@ public class LetterTypeTypeServiceImpl implements LetterTypeService {
         LetterTypeDto letterTypeDto = modelMapper.map(savedLetterType, LetterTypeDto.class);
 
         if(savedLetterType.isCheckScoreBoard() == true){
-            List<ScoreBoardType> scoreBoardType = scoreBoardTypeService.createdListScoreBoardType(savedLetterType.getId(), savedLetterType.getLetterTypeName(),scoreBoardTypeList);
+            List<ScoreBoardType> scoreBoardType = scoreBoardTypeRepo.findAllScoreBoardTypeByAction();
             letterTypeDto.setScoreBoardTypeList(scoreBoardType);
         }
 

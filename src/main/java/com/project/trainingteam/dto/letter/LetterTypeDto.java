@@ -22,6 +22,8 @@ public class LetterTypeDto {
 
     private String examName ;
 
+    private Integer printedQuantity;
+
     private String reason;
 
     private List<ScoreBoardType> scoreBoardTypeList;

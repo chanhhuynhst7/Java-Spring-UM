@@ -48,6 +48,8 @@ public class LetterDto {
 
     private String examName;
 
+    private Integer printedQuantity;
+
     private String reason;
 
     private String handlePart;

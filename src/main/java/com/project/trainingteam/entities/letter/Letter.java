@@ -1,6 +1,7 @@
 package com.project.trainingteam.entities.letter;
 
-import com.project.trainingteam.entities.scoreboard.ScoreBoardType;
+import com.project.trainingteam.entities.base.Auditable;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,10 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name="um_letter")
-public class Letter {
+public class Letter extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "letter_id")
     private Long id;
 
     private String username;
@@ -52,6 +54,8 @@ public class Letter {
     private String semesterName;
 
     private String examName;
+
+    private Integer printedQuantity;
 
     private String reason;
 

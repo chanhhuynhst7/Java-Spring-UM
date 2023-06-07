@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface LetterTypeService {
 
-    LetterTypeDto createLetterType (LetterType letterType, ScoreBoardType[] scoreBoardTypeList);
+    LetterTypeDto createLetterType (LetterType letterType);
 
 
     LetterTypeDto findLetterTypeByLetterTypeName(@Param("letterTypeName")String letterTypeName);

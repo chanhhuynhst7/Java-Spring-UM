@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
         user.setAddress(req.getAddress());
         user.setEmail(req.getEmail());
         user.setPhone(req.getPhone());
+        user.setDepartCenterName(req.getDepartCenterName());
         user.setRoleName(req.getRoleName());
         user.setPositionName(req.getPositionName());
         User savedUser = userRepo.save(user);
@@ -73,6 +74,7 @@ public class UserServiceImpl implements UserService {
             user.setAddress(req.getAddress());
             user.setEmail(req.getEmail());
             user.setPhone(req.getPhone());
+            user.setDepartCenterName(req.getDepartCenterName());
             user.setRoleName(user.getRoleName());
             user.setPositionName(req.getPositionName());
             User savedUser = userRepo.save(user);

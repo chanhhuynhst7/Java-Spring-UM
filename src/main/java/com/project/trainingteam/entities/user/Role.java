@@ -17,9 +17,10 @@ import lombok.Setter;
 public class Role extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "role_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String roleName;
 
     @Column(nullable = false)

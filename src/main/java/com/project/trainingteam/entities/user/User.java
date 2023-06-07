@@ -14,6 +14,7 @@ import lombok.*;
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "user_id")
     private Long id ;
 
     @Column(nullable = false)
@@ -27,7 +28,6 @@ public class User extends Auditable {
 
     private String classUser;
 
-    @Column(nullable = false)
     private String facultyName;
 
     private String major;
@@ -46,6 +46,8 @@ public class User extends Auditable {
     private String email;
 
     private String phone;
+
+    private String departCenterName;
 
     @Column(nullable = false)
     private String roleName;

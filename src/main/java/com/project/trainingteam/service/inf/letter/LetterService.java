@@ -58,6 +58,6 @@ public interface LetterService {
 
     String deletedLetter(Long id);
 
-    User hello();
+    String hello();
 
 }

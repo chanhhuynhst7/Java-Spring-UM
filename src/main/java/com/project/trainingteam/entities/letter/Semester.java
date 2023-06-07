@@ -19,6 +19,7 @@ public class Semester extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "semester_id")
     private Long id;
 
     @Column(nullable = false)

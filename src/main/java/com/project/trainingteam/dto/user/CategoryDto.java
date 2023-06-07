@@ -1,5 +1,6 @@
-package com.project.trainingteam.dto.reason;
+package com.project.trainingteam.dto.user;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,13 +10,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReasonChuyenGioThiDto {
+public class CategoryDto {
 
     private Long id;
 
-    private String reasonChuyenGioThiName;
+    private String categoryName;
 
-    private String reasonChuyenGioThiDesc;
+    private String categoryDesc;
 
     private boolean action;
 }
