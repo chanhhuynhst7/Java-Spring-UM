@@ -1,12 +1,10 @@
 package com.project.trainingteam.dto.notification;
 
-import jakarta.persistence.ElementCollection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -33,5 +31,13 @@ public class NotificationDto {
 
     private Set<String> SeenByUser;
 
+    private Long countNotificationUnSeen;
+
     private boolean checkDeleted;
+
+
+    public NotificationDto(String categoryName, Long countNotificationUnSeen){
+        this.categoryName = categoryName;
+        this.countNotificationUnSeen = countNotificationUnSeen;
+    }
 }

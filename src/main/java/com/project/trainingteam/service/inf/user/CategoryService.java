@@ -13,6 +13,8 @@ public interface CategoryService {
 
     CategoryDto updatedCategory(Category category) throws Exception;
 
+
+
     Page<CategoryDto> getAllCategory(Pageable pageable)throws Exception;
 
     String deletedCategory(Long id)throws Exception;

@@ -1,6 +1,8 @@
 package com.project.trainingteam.controller.notification;
 
+import com.project.trainingteam.dto.notification.DashBoardUnSeenNotificationDto;
 import com.project.trainingteam.dto.notification.NotificationDto;
+import com.project.trainingteam.dto.notification.PageUnSeenNotificationDto;
 import com.project.trainingteam.entities.notification.Notification;
 import com.project.trainingteam.service.inf.notification.NotificationService;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -49,6 +53,17 @@ public class NotificationController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<NotificationDto> getNotificationById(@PathVariable("id")Long id,@RequestBody Notification notification)throws Exception{
+        try{
+            notification.setId(id);
+            NotificationDto result = notificationService.getNotificationById(notification);
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<Page<NotificationDto>> getAllNotification(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
                                                                     @RequestParam(name = "pageSize", defaultValue = "20") int size,
@@ -62,6 +77,119 @@ public class NotificationController {
         }
     }
 
+    @GetMapping("/dashboard/new")
+    public ResponseEntity<List<NotificationDto>> getNewNotificationList()throws Exception{
+        try{
+            List<NotificationDto> result = notificationService.getNewNotificationList();
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/dashboard/important")
+    public ResponseEntity<List<NotificationDto>> getImportantNotificationList()throws Exception{
+        try{
+            List<NotificationDto> result = notificationService.getImportantNotificationList();
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @GetMapping("/dashboard/unseen")
+    public ResponseEntity<List<DashBoardUnSeenNotificationDto>> getNotificationUnSeenByCategoryName()throws Exception{
+        try{
+            List<DashBoardUnSeenNotificationDto> result = notificationService.getUnseenCountNotificationByCategoryName();
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @GetMapping("/sidebar/faculty/{facultyName}")
+    public ResponseEntity<Page<NotificationDto>> getAllNotificationByFacultyName(@PathVariable("facultyName") String facultyName, @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                 @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                 @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                 @RequestParam(name = "content", defaultValue = "id") String content
+    ) throws Exception {
+        try {
+            Page<NotificationDto> result = notificationService.getAllNotificationByFacultyName(facultyName, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/sidebar/depart-center/{departCenterName}")
+    public ResponseEntity<Page<NotificationDto>> getAllNotificationByDepartCenterName(@PathVariable("departCenterName") String departCenterName, @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                      @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                      @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                      @RequestParam(name = "content", defaultValue = "id") String content
+    ) throws Exception {
+        try {
+            Page<NotificationDto> result = notificationService.getAllNotificationByDepartCenterName(departCenterName, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/sidebar/category/{categoryName}")
+    public ResponseEntity<Page<NotificationDto>> getAllNotificationByCategoryName(@PathVariable("categoryName") String categoryName, @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                      @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                      @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                      @RequestParam(name = "content", defaultValue = "id") String content
+    ) throws Exception {
+        try {
+            Page<NotificationDto> result = notificationService.getAllNotificationByCategoryName(categoryName, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/page/category/{categoryName}")
+    public ResponseEntity<Page<PageUnSeenNotificationDto>> getUnSeenNotificationByCategoryName(@PathVariable("categoryName") String categoryName, @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                               @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                               @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                               @RequestParam(name = "content", defaultValue = "id") String content
+    ) throws Exception {
+        try {
+            Page<PageUnSeenNotificationDto> result = notificationService.getUnSeenNotificationByCategoryName(categoryName, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/page/important")
+    public ResponseEntity<Page<NotificationDto>> getAllImportantNotification(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                             @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                             @RequestParam(name="direction",defaultValue = "ASC") String direction,
+                                                                             @RequestParam(name = "content", defaultValue = "id") String content)throws Exception{
+        try{
+            Page<NotificationDto> result = notificationService.getAllImportantNotification(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction),content)));
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/page/new")
+    public ResponseEntity<Page<NotificationDto>> getAllNewNotification(@RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                             @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                             @RequestParam(name="direction",defaultValue = "ASC") String direction,
+                                                                             @RequestParam(name = "content", defaultValue = "id") String content)throws Exception{
+        try{
+            Page<NotificationDto> result = notificationService.getAllNewNotification(PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction),content)));
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 
     @DeleteMapping("/delete/{id}")

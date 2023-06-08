@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -54,6 +55,7 @@ public class CategoryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     };
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletedCategory(@PathVariable("id") Long id){
