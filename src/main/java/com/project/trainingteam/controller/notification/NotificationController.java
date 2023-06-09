@@ -3,11 +3,13 @@ package com.project.trainingteam.controller.notification;
 import com.project.trainingteam.dto.notification.DashBoardUnSeenNotificationDto;
 import com.project.trainingteam.dto.notification.NotificationDto;
 import com.project.trainingteam.dto.notification.PageUnSeenNotificationDto;
+import com.project.trainingteam.dto.notification.SearchRequestNotificationDto;
 import com.project.trainingteam.entities.notification.Notification;
 import com.project.trainingteam.service.inf.notification.NotificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -189,6 +191,19 @@ public class NotificationController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<NotificationDto>> getSearchNotification(@RequestBody SearchRequestNotificationDto searchRequestNotificationDto,
+                                                                       @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                       @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                       @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                       @RequestParam(name = "content", defaultValue = "id") String content
+
+    ) throws Exception {
+        Page<NotificationDto> result = notificationService.searchNotification(searchRequestNotificationDto, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction),content)));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 

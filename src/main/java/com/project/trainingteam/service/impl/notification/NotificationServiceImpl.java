@@ -3,14 +3,19 @@ package com.project.trainingteam.service.impl.notification;
 import com.project.trainingteam.dto.notification.DashBoardUnSeenNotificationDto;
 import com.project.trainingteam.dto.notification.NotificationDto;
 import com.project.trainingteam.dto.notification.PageUnSeenNotificationDto;
+import com.project.trainingteam.dto.notification.SearchRequestNotificationDto;
 import com.project.trainingteam.entities.notification.Notification;
 import com.project.trainingteam.repo.inf.notification.NotificationRepo;
 import com.project.trainingteam.service.inf.notification.NotificationService;
+import io.micrometer.common.util.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -264,6 +269,59 @@ public class NotificationServiceImpl implements NotificationService {
             }
         }catch (Exception e){
             throw new Exception("Không thể tìm Notification");
+        }
+    }
+
+    @Override
+    public Page<NotificationDto> searchNotification(SearchRequestNotificationDto searchRequestNotificationDto, Pageable pageable) throws Exception {
+        String notificationTitle = "%";
+        if(!StringUtils.isEmpty(searchRequestNotificationDto.getNotificationTitle())){
+            notificationTitle = searchRequestNotificationDto.getNotificationTitle() +"%";
+        }
+
+        String notificationContent = "%";
+        if(!StringUtils.isEmpty(searchRequestNotificationDto.getNotificationContent())){
+            notificationContent = searchRequestNotificationDto.getNotificationContent() + "%";
+        }
+
+        String categoryName = null;
+        if(!StringUtils.isEmpty(searchRequestNotificationDto.getCategoryName()) ){
+            categoryName = searchRequestNotificationDto.getCategoryName();
+        }
+
+        String facultyName = null;
+        if(!StringUtils.isEmpty(searchRequestNotificationDto.getFacultyName())){
+            facultyName = searchRequestNotificationDto.getFacultyName();
+        }
+
+        String departCenterName = null;
+        if(!StringUtils.isEmpty(searchRequestNotificationDto.getDepartCenterName())){
+            departCenterName = searchRequestNotificationDto.getDepartCenterName();
+        }
+
+        Boolean checkImportant = false;
+        if(!BooleanUtils.isFalse(searchRequestNotificationDto.isCheckImportant())){
+            checkImportant = searchRequestNotificationDto.isCheckImportant();
+        }
+
+        Date startedDate = notificationRepo.theLastDateNotification();
+        if(searchRequestNotificationDto.getStartedDate() != null){
+            startedDate = searchRequestNotificationDto.getStartedDate();
+        }
+
+        Date endedDate = new Date();
+        if(searchRequestNotificationDto.getEndedDate() != null){
+            endedDate = searchRequestNotificationDto.getEndedDate();
+        }
+
+
+        Page<Notification> notificationPage = notificationRepo.searchNotification(notificationTitle,notificationContent,categoryName,facultyName,departCenterName,checkImportant,startedDate,endedDate,pageable);
+        List<Notification> notificationList = notificationPage.getContent();
+        List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
+        if(notificationDtoList != null){
+            return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
+        }else{
+            throw new Exception("Không tìm thấy Notification");
         }
     }
 

@@ -2,11 +2,13 @@ package com.project.trainingteam.repo.inf.notification;
 
 import com.project.trainingteam.entities.notification.Notification;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -65,6 +67,18 @@ public interface NotificationRepo extends JpaRepository<Notification,Long> {
     Page<Notification> getAllNotificationByCategoryName(String categoryName,Pageable pageable);
 
 
+    @Query("SELECT n " +
+            "FROM Notification n " +
+            "WHERE (n.notificationTitle LIKE %:notificationTitle) " +
+            "AND (n.notificationContent LIKE %:notificationContent) " +
+            "AND (n.categoryName = :categoryName OR n.categoryName IS NULL) " +
+            "AND (n.facultyName = :facultyName OR n.facultyName IS NULL) " +
+            "AND (n.departCenterName = :departCenterName OR n.departCenterName IS NULL) " +
+            "AND (n.checkImportant = :checkImportant)"+
+            "AND (n.createdDate BETWEEN :startedDate AND :endedDate)")
+    Page<Notification> searchNotification(String notificationTitle,String notificationContent,String categoryName, String facultyName, String departCenterName,Boolean checkImportant,Date startedDate,Date endedDate,Pageable pageable);
 
 
+    @Query("SELECT MIN(n.createdDate) FROM Notification n")
+    Date theLastDateNotification();
 }

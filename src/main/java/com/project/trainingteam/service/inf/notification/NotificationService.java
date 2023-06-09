@@ -3,6 +3,7 @@ package com.project.trainingteam.service.inf.notification;
 import com.project.trainingteam.dto.notification.DashBoardUnSeenNotificationDto;
 import com.project.trainingteam.dto.notification.NotificationDto;
 import com.project.trainingteam.dto.notification.PageUnSeenNotificationDto;
+import com.project.trainingteam.dto.notification.SearchRequestNotificationDto;
 import com.project.trainingteam.entities.notification.Notification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,8 @@ public interface NotificationService {
     Page<NotificationDto> getAllNotificationByCategoryName(String categoryName,Pageable pageable)throws Exception;
 
     Page<NotificationDto> getAllNotificationByDepartCenterName(String departCenterName, Pageable pageable)throws Exception;
+
+    Page<NotificationDto> searchNotification(SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable)throws Exception;
 
     String deletedNotification(Long id)throws Exception;
 }
