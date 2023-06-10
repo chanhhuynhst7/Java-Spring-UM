@@ -19,9 +19,9 @@ public class SearchRequestNotificationDto {
 
     private String categoryName;
 
-    private String facultyName;
+    private String facultyName = "";
 
-    private String departCenterName;
+    private String departCenterName = "";
 
     private Date startedDate;
 

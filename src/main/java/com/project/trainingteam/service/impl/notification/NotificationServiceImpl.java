@@ -318,7 +318,7 @@ public class NotificationServiceImpl implements NotificationService {
         }
         System.out.println(endedDate);
 
-        if(searchRequestNotificationDto.getFacultyName().equals("") && searchRequestNotificationDto.getDepartCenterName() == null) {
+        if(searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
             String facultyName = "%";
             Page<Notification> notificationPage = notificationRepo.searchNotification1(notificationTitle, notificationContent, categoryName, facultyName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
@@ -328,7 +328,7 @@ public class NotificationServiceImpl implements NotificationService {
             } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }else if (!searchRequestNotificationDto.getFacultyName().equals("") && searchRequestNotificationDto.getDepartCenterName() == null) {
+        }else if (!searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
             String facultyName = searchRequestNotificationDto.getFacultyName();
             Page<Notification> notificationPage = notificationRepo.searchNotification1(notificationTitle, notificationContent, categoryName, facultyName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
@@ -338,7 +338,7 @@ public class NotificationServiceImpl implements NotificationService {
             } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }else if (searchRequestNotificationDto.getFacultyName() == null && searchRequestNotificationDto.getDepartCenterName().equals("") ) {
+        }else if (searchRequestNotificationDto.getFacultyName().equals("") && searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả") ) {
             String departCenterName = "%";
             Page<Notification> notificationPage = notificationRepo.searchNotification2(notificationTitle, notificationContent, categoryName, departCenterName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
@@ -348,7 +348,7 @@ public class NotificationServiceImpl implements NotificationService {
             } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }else if (searchRequestNotificationDto.getFacultyName() == null && !searchRequestNotificationDto.getDepartCenterName().equals("")) {
+        }else if (searchRequestNotificationDto.getFacultyName().equals("") && !searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả")) {
             String departCenterName = searchRequestNotificationDto.getDepartCenterName();
             Page<Notification> notificationPage = notificationRepo.searchNotification2(notificationTitle, notificationContent, categoryName, departCenterName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
