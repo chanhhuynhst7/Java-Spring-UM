@@ -44,5 +44,8 @@ public interface NotificationService {
 
     Page<NotificationDto> searchNotification(SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable)throws Exception;
 
+    Page<NotificationDto> searchNotificationByFacultyName(String facultyName,SearchRequestNotificationDto searchRequestNotificationDto, Pageable pageable)throws Exception;
+
+    Page<NotificationDto> searchNotificationByDepartCenterName(String departCenterName,SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable)throws Exception;
     String deletedNotification(Long id)throws Exception;
 }

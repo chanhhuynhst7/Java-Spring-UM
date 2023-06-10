@@ -69,16 +69,31 @@ public interface NotificationRepo extends JpaRepository<Notification,Long> {
 
     @Query("SELECT n " +
             "FROM Notification n " +
-            "WHERE (n.notificationTitle LIKE %:notificationTitle) " +
-            "AND (n.notificationContent LIKE %:notificationContent) " +
-            "AND (n.categoryName = :categoryName OR n.categoryName IS NULL) " +
-            "AND (n.facultyName = :facultyName OR n.facultyName IS NULL) " +
-            "AND (n.departCenterName = :departCenterName OR n.departCenterName IS NULL) " +
+            "WHERE (n.notificationTitle LIKE %:notificationTitle%) " +
+            "AND (n.notificationContent LIKE %:notificationContent% ) " +
+            "AND (n.categoryName LIKE %:categoryName%) " +
+            "AND (n.facultyName LIKE %:facultyName%) " +
             "AND (n.checkImportant = :checkImportant)"+
             "AND (n.createdDate BETWEEN :startedDate AND :endedDate)")
-    Page<Notification> searchNotification(String notificationTitle,String notificationContent,String categoryName, String facultyName, String departCenterName,Boolean checkImportant,Date startedDate,Date endedDate,Pageable pageable);
+    Page<Notification> searchNotification1(String notificationTitle,String notificationContent,String categoryName, String facultyName,Boolean checkImportant,Date startedDate,Date endedDate,Pageable pageable);
 
+    @Query("SELECT n " +
+            "FROM Notification n " +
+            "WHERE (n.notificationTitle LIKE %:notificationTitle%) " +
+            "AND (n.notificationContent LIKE %:notificationContent% ) " +
+            "AND (n.categoryName LIKE %:categoryName%) " +
+            "AND (n.departCenterName LIKE %:departCenterName%) " +
+            "AND (n.checkImportant = :checkImportant)"+
+            "AND (n.createdDate BETWEEN :startedDate AND :endedDate)")
+    Page<Notification> searchNotification2(String notificationTitle,String notificationContent,String categoryName, String departCenterName,Boolean checkImportant,Date startedDate,Date endedDate,Pageable pageable);
 
     @Query("SELECT MIN(n.createdDate) FROM Notification n")
     Date theLastDateNotification();
+
+    @Query("SELECT MAX(n.createdDate) FROM Notification n")
+    Date theNewDateNotification();
+
+
+
+
 }

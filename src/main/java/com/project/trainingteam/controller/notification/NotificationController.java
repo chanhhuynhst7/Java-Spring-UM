@@ -206,6 +206,35 @@ public class NotificationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/search/faculty/{facultyName}")
+    public ResponseEntity<Page<NotificationDto>> getSearchNotificationByFacultyName(
+            @PathVariable("facultyName") String facultyName, @RequestBody SearchRequestNotificationDto searchRequestNotificationDto,
+            @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+            @RequestParam(name = "pageSize", defaultValue = "20") int size,
+            @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+            @RequestParam(name = "content", defaultValue = "id") String content
+
+    ) throws Exception {
+        Page<NotificationDto> result = notificationService.searchNotificationByFacultyName(facultyName, searchRequestNotificationDto, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/search/depart-center/{departCenterName}")
+    public ResponseEntity<Page<NotificationDto>> getSearchNotificationByDepartCenterName(
+            @PathVariable("departCenterName") String departCenterName,
+            @RequestBody SearchRequestNotificationDto searchRequestNotificationDto,
+            @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+            @RequestParam(name = "pageSize", defaultValue = "20") int size,
+            @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+            @RequestParam(name = "content", defaultValue = "id") String content
+
+    )  throws Exception {
+        Page<NotificationDto> result = notificationService.searchNotificationByDepartCenterName(departCenterName, searchRequestNotificationDto, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletedNotification(@PathVariable("id")Long id)throws Exception{
