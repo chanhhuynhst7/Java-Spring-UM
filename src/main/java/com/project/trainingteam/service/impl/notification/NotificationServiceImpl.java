@@ -8,16 +8,12 @@ import com.project.trainingteam.entities.notification.Notification;
 import com.project.trainingteam.repo.inf.notification.NotificationCustomRepo;
 import com.project.trainingteam.repo.inf.notification.NotificationRepo;
 import com.project.trainingteam.service.inf.notification.NotificationService;
-import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.EntityManager;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -40,17 +36,19 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public NotificationDto createdNotification(Notification notification) throws Exception {
-        try{
+        try {
             Notification savedNotification = notificationRepo.save(notification);
-            return modelMapper.map(savedNotification,NotificationDto.class);
-        }catch (Exception e){
+            return modelMapper.map(savedNotification, NotificationDto.class);
+        } catch (Exception e) {
             throw new Exception("Không thể tạo mới");
         }
-    };
+    }
+
+    ;
 
     @Override
     public NotificationDto updatedNotification(Notification notification) throws Exception {
-        try{
+        try {
             Notification findNotification = notificationRepo.findById(notification.getId()).get();
             findNotification.setNotificationTitle(notification.getNotificationTitle());
             findNotification.setNotificationContent(notification.getNotificationContent());
@@ -58,22 +56,22 @@ public class NotificationServiceImpl implements NotificationService {
             findNotification.setDepartCenterName(notification.getDepartCenterName());
             findNotification.setCategoryName(notification.getCategoryName());
             Notification savedNotification = notificationRepo.save(findNotification);
-            return modelMapper.map(savedNotification,NotificationDto.class);
-        }catch (Exception e){
+            return modelMapper.map(savedNotification, NotificationDto.class);
+        } catch (Exception e) {
             throw new Exception("Không thể update");
         }
     }
 
     @Override
     public NotificationDto getNotificationById(Notification notification) throws Exception {
-        try{
+        try {
             Notification findNotification = notificationRepo.findById(notification.getId()).get();
-            if(findNotification != null ){
-                return modelMapper.map(findNotification,NotificationDto.class);
-            }else{
+            if (findNotification != null) {
+                return modelMapper.map(findNotification, NotificationDto.class);
+            } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("không thể tìm Notification");
         }
     }
@@ -101,22 +99,24 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<NotificationDto> getNewNotificationList() throws Exception {
-        try{
+        try {
             List<Notification> notification = notificationRepo.findNewNotification();
-            List<NotificationDto> notificationDtoList = notification.stream().map(result ->modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
+            List<NotificationDto> notificationDtoList = notification.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
             return notificationDtoList;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không tìm thấy Notification");
         }
-    };
+    }
+
+    ;
 
     @Override
     public List<NotificationDto> getImportantNotificationList() throws Exception {
-        try{
+        try {
             List<Notification> notification = notificationRepo.findImportantNotification();
-            List<NotificationDto> notificationDtoList = notification.stream().map(result ->modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
+            List<NotificationDto> notificationDtoList = notification.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
             return notificationDtoList;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không tìm thấy Notification");
         }
     }
@@ -148,16 +148,16 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Page<NotificationDto> getAllNotification(Pageable pageable) throws Exception {
 
-        try{
+        try {
             Page<Notification> notificationPage = notificationRepo.findAll(pageable);
             List<Notification> notificationList = notificationPage.getContent();
-            List<NotificationDto> notificationDtoList = notificationList.stream().map(result ->modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-            if( notificationDtoList != null){
-                return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-            }else{
+            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
+            if (notificationDtoList != null) {
+                return new PageImpl<>(notificationDtoList, pageable, notificationPage.getTotalElements());
+            } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không thể tìm Notification");
         }
 
@@ -200,80 +200,80 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Page<NotificationDto> getAllImportantNotification(Pageable pageable) throws Exception {
-        try{
+        try {
             Page<Notification> notificationPage = notificationRepo.getAllImportantNotification(pageable);
             List<Notification> notificationList = notificationPage.getContent();
-            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-            if(notificationDtoList != null ){
-                return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-            }else{
+            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
+            if (notificationDtoList != null) {
+                return new PageImpl<>(notificationDtoList, pageable, notificationPage.getTotalElements());
+            } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không thể tìm Notification");
         }
     }
 
     @Override
     public Page<NotificationDto> getAllNewNotification(Pageable pageable) throws Exception {
-        try{
+        try {
             Page<Notification> notificationPage = notificationRepo.getAllNewNotification(pageable);
             List<Notification> notificationList = notificationPage.getContent();
-            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-            if(notificationDtoList != null ){
-                return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-            }else{
+            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
+            if (notificationDtoList != null) {
+                return new PageImpl<>(notificationDtoList, pageable, notificationPage.getTotalElements());
+            } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không thể tìm Notification");
         }
     }
 
     @Override
     public Page<NotificationDto> getAllNotificationByFacultyName(String facultyName, Pageable pageable) throws Exception {
-        try{
-            Page<Notification> notificationPage = notificationRepo.getAllNotificationByFacultyName(facultyName,pageable);
+        try {
+            Page<Notification> notificationPage = notificationRepo.getAllNotificationByFacultyName(facultyName, pageable);
             List<Notification> notificationList = notificationPage.getContent();
-            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-            if(notificationDtoList != null ){
-                return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-            }else{
+            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
+            if (notificationDtoList != null) {
+                return new PageImpl<>(notificationDtoList, pageable, notificationPage.getTotalElements());
+            } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không thể tìm Notification");
         }
     }
 
     @Override
     public Page<NotificationDto> getAllNotificationByCategoryName(String categoryName, Pageable pageable) throws Exception {
-        try{
-            Page<Notification> notificationPage = notificationRepo.getAllNotificationByCategoryName(categoryName,pageable);
+        try {
+            Page<Notification> notificationPage = notificationRepo.getAllNotificationByCategoryName(categoryName, pageable);
             List<Notification> notificationList = notificationPage.getContent();
-            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-            if(notificationDtoList != null ){
-                return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-            }else{
+            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
+            if (notificationDtoList != null) {
+                return new PageImpl<>(notificationDtoList, pageable, notificationPage.getTotalElements());
+            } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không thể tìm Notification");
         }
     }
 
     @Override
     public Page<NotificationDto> getAllNotificationByDepartCenterName(String departCenterName, Pageable pageable) throws Exception {
-        try{
-            Page<Notification> notificationPage = notificationRepo.getAllNotificationByDePartCenterName(departCenterName,pageable);
+        try {
+            Page<Notification> notificationPage = notificationRepo.getAllNotificationByDePartCenterName(departCenterName, pageable);
             List<Notification> notificationList = notificationPage.getContent();
-            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-            if(notificationDtoList != null ){
-                return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-            }else{
+            List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result, NotificationDto.class)).collect(Collectors.toList());
+            if (notificationDtoList != null) {
+                return new PageImpl<>(notificationDtoList, pageable, notificationPage.getTotalElements());
+            } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Không thể tìm Notification");
         }
     }
@@ -288,7 +288,7 @@ public class NotificationServiceImpl implements NotificationService {
         System.out.println(notificationTitle);
 
         String notificationContent = searchRequestNotificationDto.getNotificationContent();
-        if (searchRequestNotificationDto.getNotificationTitle() == "") {
+        if (searchRequestNotificationDto.getNotificationContent() == "") {
             notificationContent = "%";
         }
         System.out.println(notificationContent);
@@ -318,7 +318,7 @@ public class NotificationServiceImpl implements NotificationService {
         }
         System.out.println(endedDate);
 
-        if(searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
+        if (searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
             String facultyName = "%";
             Page<Notification> notificationPage = notificationRepo.searchNotification1(notificationTitle, notificationContent, categoryName, facultyName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
@@ -328,7 +328,7 @@ public class NotificationServiceImpl implements NotificationService {
             } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }else if (!searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
+        } else if (!searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
             String facultyName = searchRequestNotificationDto.getFacultyName();
             Page<Notification> notificationPage = notificationRepo.searchNotification1(notificationTitle, notificationContent, categoryName, facultyName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
@@ -338,7 +338,7 @@ public class NotificationServiceImpl implements NotificationService {
             } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }else if (searchRequestNotificationDto.getFacultyName().equals("") && searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả") ) {
+        } else if (searchRequestNotificationDto.getFacultyName().equals("") && searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả")) {
             String departCenterName = "%";
             Page<Notification> notificationPage = notificationRepo.searchNotification2(notificationTitle, notificationContent, categoryName, departCenterName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
@@ -348,7 +348,7 @@ public class NotificationServiceImpl implements NotificationService {
             } else {
                 throw new Exception("Không tìm thấy Notification");
             }
-        }else if (searchRequestNotificationDto.getFacultyName().equals("") && !searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả")) {
+        } else if (searchRequestNotificationDto.getFacultyName().equals("") && !searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả")) {
             String departCenterName = searchRequestNotificationDto.getDepartCenterName();
             Page<Notification> notificationPage = notificationRepo.searchNotification2(notificationTitle, notificationContent, categoryName, departCenterName, checkImportant, startedDate, endedDate, pageable);
             List<Notification> notificationList = notificationPage.getContent();
@@ -363,78 +363,118 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Page<NotificationDto> searchNotificationByFacultyName(String facultyName,SearchRequestNotificationDto searchRequestNotificationDto, Pageable pageable) throws Exception {
-        String notificationTitle = "%";
-        if(!StringUtils.isEmpty(searchRequestNotificationDto.getNotificationTitle())){
-            notificationTitle = searchRequestNotificationDto.getNotificationTitle() +"%";
+    public Page<NotificationDto> searchNotificationByFacultyName(String facultyName, SearchRequestNotificationDto searchRequestNotificationDto, Pageable pageable) throws Exception {
+        String notificationTitle = "%" + searchRequestNotificationDto.getNotificationTitle() + "%";
+        if (searchRequestNotificationDto.getNotificationTitle() == "") {
+            notificationTitle = "%";
         }
+        System.out.println(notificationTitle);
 
-        String notificationContent = "%";
-        if(!StringUtils.isEmpty(searchRequestNotificationDto.getNotificationContent())){
-            notificationContent = searchRequestNotificationDto.getNotificationContent() + "%";
+        String notificationContent = "%" + searchRequestNotificationDto.getNotificationContent() + "%";
+        if (searchRequestNotificationDto.getNotificationContent() == "") {
+            notificationContent = "%";
         }
+        System.out.println(notificationContent);
 
-        String categoryName = null;
-        if(!StringUtils.isEmpty(searchRequestNotificationDto.getCategoryName()) ){
-            categoryName = searchRequestNotificationDto.getCategoryName();
+        String categoryName = "%" + searchRequestNotificationDto.getCategoryName() + "%";
+        if (searchRequestNotificationDto.getCategoryName() == "") {
+            categoryName = "%";
         }
+        System.out.println(categoryName);
 
         Date startedDate = notificationRepo.theLastDateNotification();
-        if(searchRequestNotificationDto.getStartedDate() != null){
+        if (searchRequestNotificationDto.getStartedDate() != null) {
             startedDate = searchRequestNotificationDto.getStartedDate();
         }
+        System.out.println(startedDate);
 
-        Date endedDate = new Date();
-        if(searchRequestNotificationDto.getEndedDate() != null){
-            endedDate = searchRequestNotificationDto.getStartedDate();
+        Date endedDate = notificationRepo.theNewDateNotification();
+        if (searchRequestNotificationDto.getEndedDate() != null) {
+            endedDate = searchRequestNotificationDto.getEndedDate();
         }
+        System.out.println(endedDate);
 
+        System.out.println(facultyName);
 
-        Page<Notification> notificationPage = notificationCustomRepo.searchNotificationByFacultyName(notificationTitle,notificationContent,categoryName,facultyName,startedDate,endedDate,pageable);
-        List<Notification> notificationList = notificationPage.getContent();
-        List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-        if(notificationDtoList != null){
-            return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-        }else{
-            throw new Exception("Không tìm thấy Notification");
+//        List<Notification> notificationList = notificationCustomRepo.searchNotificationByFacultyNameRepo(facultyName,notificationTitle,notificationContent,categoryName,startedDate,endedDate);
+////        List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
+//        return notificationList;
+
+        Page<Notification> notificationPage = notificationCustomRepo.searchNotificationByFacultyNameRepo(facultyName, notificationTitle, notificationContent, categoryName, startedDate, endedDate, pageable);
+        Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+        return  notificationDtoPage;
+}
+    @Override
+    public Page<NotificationDto> searchNotificationByDepartCenterName(String departCenterName, SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable) throws Exception {
+        String notificationTitle = "%" + searchRequestNotificationDto.getNotificationTitle() + "%";
+        if (searchRequestNotificationDto.getNotificationTitle() == "") {
+            notificationTitle = "%";
         }
+        System.out.println(notificationTitle);
+
+        String notificationContent = "%" + searchRequestNotificationDto.getNotificationContent() + "%";
+        if (searchRequestNotificationDto.getNotificationContent() == "") {
+            notificationContent = "%";
+        }
+        System.out.println(notificationContent);
+
+        String categoryName = "%" + searchRequestNotificationDto.getCategoryName() + "%";
+        if (searchRequestNotificationDto.getCategoryName() == "") {
+            categoryName = "%";
+        }
+        System.out.println(categoryName);
+
+        Date startedDate = notificationRepo.theLastDateNotification();
+        if (searchRequestNotificationDto.getStartedDate() != null) {
+            startedDate = searchRequestNotificationDto.getStartedDate();
+        }
+        System.out.println(startedDate);
+
+        Date endedDate = notificationRepo.theNewDateNotification();
+        if (searchRequestNotificationDto.getEndedDate() != null) {
+            endedDate = searchRequestNotificationDto.getEndedDate();
+        }
+        System.out.println(endedDate);
+
+        Page<Notification> notificationPage = notificationCustomRepo.searchNotificationByDepartCenterName(departCenterName,notificationTitle,notificationContent,categoryName,startedDate,endedDate,pageable);
+        Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+        return  notificationDtoPage;
     }
 
     @Override
-    public Page<NotificationDto> searchNotificationByDepartCenterName(String departCenterName, SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable) throws Exception {
-        String notificationTitle = "%";
-        if(!StringUtils.isEmpty(searchRequestNotificationDto.getNotificationTitle())){
-            notificationTitle = searchRequestNotificationDto.getNotificationTitle() +"%";
+    public List<Notification> test(String facultyName,SearchRequestNotificationDto searchRequestNotificationDto) {
+        String notificationTitle = "%" + searchRequestNotificationDto.getNotificationTitle() + "%";
+        if (searchRequestNotificationDto.getNotificationTitle() == "") {
+            notificationTitle = "%";
         }
+        System.out.println(notificationTitle);
 
-        String notificationContent = "%";
-        if(!StringUtils.isEmpty(searchRequestNotificationDto.getNotificationContent())){
-            notificationContent = searchRequestNotificationDto.getNotificationContent() + "%";
+        String notificationContent = "%" + searchRequestNotificationDto.getNotificationContent() + "%";
+        if (searchRequestNotificationDto.getNotificationContent() == "") {
+            notificationContent = "%";
         }
+        System.out.println(notificationContent);
 
-        String categoryName = null;
-        if(!StringUtils.isEmpty(searchRequestNotificationDto.getCategoryName()) ){
-            categoryName = searchRequestNotificationDto.getCategoryName();
+        String categoryName = "%" + searchRequestNotificationDto.getCategoryName() + "%";
+        if (searchRequestNotificationDto.getCategoryName() == "") {
+            categoryName = "%";
         }
+        System.out.println(categoryName);
 
         Date startedDate = notificationRepo.theLastDateNotification();
-        if(searchRequestNotificationDto.getStartedDate() != null){
+        if (searchRequestNotificationDto.getStartedDate() != null) {
             startedDate = searchRequestNotificationDto.getStartedDate();
         }
+        System.out.println(startedDate);
 
-        Date endedDate = new Date();
-        if(searchRequestNotificationDto.getEndedDate() != null){
-            endedDate = searchRequestNotificationDto.getStartedDate();
+        Date endedDate = notificationRepo.theNewDateNotification();
+        if (searchRequestNotificationDto.getEndedDate() != null) {
+            endedDate = searchRequestNotificationDto.getEndedDate();
         }
+        System.out.println(endedDate);
 
-        Page<Notification> notificationPage = notificationCustomRepo.searchNotificationByDepartCenterName(notificationTitle,notificationContent,categoryName,departCenterName,startedDate,endedDate,pageable);
-        List<Notification> notificationList = notificationPage.getContent();
-        List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-        if(notificationDtoList != null){
-            return new PageImpl<>(notificationDtoList,pageable,notificationPage.getTotalElements());
-        }else{
-            throw new Exception("Không tìm thấy Notification");
-        }
+        List<Notification> notificationList = notificationCustomRepo.testByCategory(facultyName,notificationTitle,notificationContent,categoryName,startedDate,endedDate);
+        return  notificationList;
     }
 
 

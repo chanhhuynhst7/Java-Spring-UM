@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -207,15 +208,15 @@ public class NotificationController {
     }
 
     @GetMapping("/search/faculty/{facultyName}")
-    public ResponseEntity<Page<NotificationDto>> getSearchNotificationByFacultyName(
-            @PathVariable("facultyName") String facultyName, @RequestBody SearchRequestNotificationDto searchRequestNotificationDto,
-            @RequestParam(name = "pageNumber", defaultValue = "0") int page,
-            @RequestParam(name = "pageSize", defaultValue = "20") int size,
-            @RequestParam(name = "direction", defaultValue = "ASC") String direction,
-            @RequestParam(name = "content", defaultValue = "id") String content
+    public ResponseEntity<Page<NotificationDto>> getSearchNotificationByFacultyName(@PathVariable("facultyName") String facultyName,
+                                                                                    @RequestBody SearchRequestNotificationDto searchRequestNotificationDto,
+                                                                                    @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+                                                                                    @RequestParam(name = "pageSize", defaultValue = "20") int size,
+                                                                                    @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+                                                                                    @RequestParam(name = "content", defaultValue = "id") String content
 
-    ) throws Exception {
-        Page<NotificationDto> result = notificationService.searchNotificationByFacultyName(facultyName, searchRequestNotificationDto, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+    )  throws Exception {
+        Page<NotificationDto> result = notificationService.searchNotificationByFacultyName(facultyName, searchRequestNotificationDto,PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -244,6 +245,13 @@ public class NotificationController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping("/test/{facultyName}")
+    public ResponseEntity<List<Notification>> testEndpoint(@PathVariable("facultyName") String facultyName,
+            @RequestBody SearchRequestNotificationDto searchRequestNotificationDto) {
+        List<Notification> result = notificationService.test(facultyName,searchRequestNotificationDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

@@ -7,7 +7,9 @@ import com.project.trainingteam.dto.notification.SearchRequestNotificationDto;
 import com.project.trainingteam.entities.notification.Notification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -44,8 +46,10 @@ public interface NotificationService {
 
     Page<NotificationDto> searchNotification(SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable)throws Exception;
 
-    Page<NotificationDto> searchNotificationByFacultyName(String facultyName,SearchRequestNotificationDto searchRequestNotificationDto, Pageable pageable)throws Exception;
+    Page<NotificationDto> searchNotificationByFacultyName(String facultyName, SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable) throws Exception;
 
-    Page<NotificationDto> searchNotificationByDepartCenterName(String departCenterName,SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable)throws Exception;
+    Page<NotificationDto> searchNotificationByDepartCenterName(String departCenterName, SearchRequestNotificationDto searchRequestNotificationDto, Pageable pageable)throws Exception;
+
+    List<Notification> test(String facultyName, SearchRequestNotificationDto searchRequestNotificationDto);
     String deletedNotification(Long id)throws Exception;
 }

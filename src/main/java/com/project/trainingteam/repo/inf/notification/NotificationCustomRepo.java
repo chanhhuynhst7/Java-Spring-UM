@@ -11,11 +11,12 @@ import java.util.List;
 @Repository
 public interface NotificationCustomRepo {
 
-    Page<Notification> searchNotificationByFacultyName(String notificationTitle,String notificationContent,String categoryName,String facultyName,Date startedDate,Date endedDate,Pageable pageable);
 
 
-    Page<Notification> searchNotificationByDepartCenterName(String notificationTitle, String notificationContent, String categoryName, String departCenterName, Date startedDate, Date endedDate,Pageable pageable);
+    Page<Notification> searchNotificationByDepartCenterName(String departCenterName,String notificationTitle,String notificationContent,String categoryName,Date startedDate, Date endedDate,Pageable pageable);
 
-    Page<Notification> searchNotification(String notificationTitle,String notificationContent,String categoryName, String facultyName, String departCenterName,Boolean checkImportant,Date startedDate,Date endedDate,Pageable pageable);
+    List<Notification> testByCategory (String facultyName,String notificationTitle,String notificationContent,String categoryName,Date startedDate, Date endedDate);
+
+    Page<Notification> searchNotificationByFacultyNameRepo (String facultyName,String notificationTitle,String notificationContent,String categoryName,Date startedDate, Date endedDate,Pageable pageable);
 
 }
