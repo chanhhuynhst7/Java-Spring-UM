@@ -235,6 +235,20 @@ public class NotificationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/search/category/{categoryName}")
+    public ResponseEntity<Page<NotificationDto>> getSearchNotificationByCategoryName(
+            @PathVariable("categoryName") String categoryName,
+            @RequestBody SearchRequestNotificationDto searchRequestNotificationDto,
+            @RequestParam(name = "pageNumber", defaultValue = "0") int page,
+            @RequestParam(name = "pageSize", defaultValue = "20") int size,
+            @RequestParam(name = "direction", defaultValue = "ASC") String direction,
+            @RequestParam(name = "content", defaultValue = "id") String content
+
+    )  throws Exception {
+        Page<NotificationDto> result = notificationService.searchNotificationByCategoryName(categoryName, searchRequestNotificationDto, PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(direction), content)));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
 
     @DeleteMapping("/delete/{id}")

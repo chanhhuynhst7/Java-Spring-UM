@@ -359,7 +359,7 @@ public class NotificationServiceImpl implements NotificationService {
                 throw new Exception("Không tìm thấy Notification");
             }
         }
-        throw new Exception("Không thể tìm");
+        throw new Exception("Không thể tìm Notification");
     }
 
     @Override
@@ -396,13 +396,14 @@ public class NotificationServiceImpl implements NotificationService {
 
         System.out.println(facultyName);
 
-//        List<Notification> notificationList = notificationCustomRepo.searchNotificationByFacultyNameRepo(facultyName,notificationTitle,notificationContent,categoryName,startedDate,endedDate);
-////        List<NotificationDto> notificationDtoList = notificationList.stream().map(result -> modelMapper.map(result,NotificationDto.class)).collect(Collectors.toList());
-//        return notificationList;
-
         Page<Notification> notificationPage = notificationCustomRepo.searchNotificationByFacultyNameRepo(facultyName, notificationTitle, notificationContent, categoryName, startedDate, endedDate, pageable);
-        Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
-        return  notificationDtoPage;
+        if(notificationPage != null ){
+            Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+            return  notificationDtoPage;
+        }else{
+            throw new Exception("Không thể tìm Notification");
+        }
+
 }
     @Override
     public Page<NotificationDto> searchNotificationByDepartCenterName(String departCenterName, SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable) throws Exception {
@@ -437,8 +438,79 @@ public class NotificationServiceImpl implements NotificationService {
         System.out.println(endedDate);
 
         Page<Notification> notificationPage = notificationCustomRepo.searchNotificationByDepartCenterName(departCenterName,notificationTitle,notificationContent,categoryName,startedDate,endedDate,pageable);
-        Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
-        return  notificationDtoPage;
+        if(notificationPage != null){
+            Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+            return  notificationDtoPage;
+        }else{
+            throw new Exception("Không thể tìm Notification");
+        }
+
+    }
+
+    @Override
+    public Page<NotificationDto> searchNotificationByCategoryName(String categoryName, SearchRequestNotificationDto searchRequestNotificationDto,Pageable pageable) throws Exception {
+        String notificationTitle = "%" + searchRequestNotificationDto.getNotificationTitle() + "%";
+        if (searchRequestNotificationDto.getNotificationTitle() == "") {
+            notificationTitle = "%";
+        }
+        System.out.println(notificationTitle);
+
+        String notificationContent = "%" + searchRequestNotificationDto.getNotificationContent() + "%";
+        if (searchRequestNotificationDto.getNotificationContent() == "") {
+            notificationContent = "%";
+        }
+        System.out.println(notificationContent);
+
+        Date startedDate = notificationRepo.theLastDateNotification();
+        if (searchRequestNotificationDto.getStartedDate() != null) {
+            startedDate = searchRequestNotificationDto.getStartedDate();
+        }
+        System.out.println(startedDate);
+
+        Date endedDate = notificationRepo.theNewDateNotification();
+        if (searchRequestNotificationDto.getEndedDate() != null) {
+            endedDate = searchRequestNotificationDto.getEndedDate();
+        }
+        System.out.println(endedDate);
+
+        if (searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
+            String facultyName = "%";
+            Page<Notification> notificationPage = notificationCustomRepo.findNotificationByCategoryNameAndFacultyName(categoryName, notificationTitle, notificationContent, facultyName, startedDate, endedDate, pageable);
+            if(notificationPage != null ){
+                Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+                return  notificationDtoPage;
+            }else{
+                throw new Exception("Không thể tìm Notification");
+            }
+        } else if (!searchRequestNotificationDto.getFacultyName().equals("Tất Cả") && searchRequestNotificationDto.getDepartCenterName().equals("")) {
+            String facultyName = "%" + searchRequestNotificationDto.getFacultyName() + "%";
+            Page<Notification> notificationPage = notificationCustomRepo.findNotificationByCategoryNameAndFacultyName(categoryName, notificationTitle, notificationContent, facultyName, startedDate, endedDate, pageable);
+            if(notificationPage != null ){
+                Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+                return  notificationDtoPage;
+            }else{
+                throw new Exception("Không thể tìm Notification");
+            }
+        } else if (searchRequestNotificationDto.getFacultyName().equals("") && searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả")) {
+            String departCenterName = "%";
+            Page<Notification> notificationPage = notificationCustomRepo.findNotificationByCategoryNameAndDepartCenterName(categoryName,notificationTitle,notificationContent,departCenterName,startedDate,endedDate,pageable);
+            if(notificationPage != null){
+                Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+                return  notificationDtoPage;
+            }else{
+                throw new Exception("Không thể tìm Notification");
+            }
+        } else if (searchRequestNotificationDto.getFacultyName().equals("") && !searchRequestNotificationDto.getDepartCenterName().equals("Tất Cả")) {
+            String departCenterName = "%" + searchRequestNotificationDto.getDepartCenterName() + "%";
+            Page<Notification> notificationPage = notificationCustomRepo.findNotificationByCategoryNameAndDepartCenterName(categoryName,notificationTitle,notificationContent,departCenterName,startedDate,endedDate,pageable);
+            if(notificationPage != null){
+                Page<NotificationDto> notificationDtoPage = notificationPage.map(notification -> modelMapper.map(notification, NotificationDto.class));
+                return  notificationDtoPage;
+            }else{
+                throw new Exception("Không thể tìm Notification");
+            }
+        }
+        throw new Exception("Không thể tìm Notification");
     }
 
     @Override
